@@ -779,6 +779,11 @@ public static unsafe class Utils
         return Data.GetIMSettings().IMProtectList.Contains(item.RowId);
     }
 
+    public static bool IsProtected(uint item)
+    {
+        return Data.GetIMSettings().IMProtectList.Contains(item);
+    }
+
     public static Dictionary<uint, GCExchangeListingMetadata> GetCurrentlyAvailableSharedExchangeListings()
     {
         var gc = Svc.ClientState.TerritoryType switch
@@ -940,19 +945,45 @@ public static unsafe class Utils
         return P.TimeLaunched[0] + 3 * 24 * 60 * 60 * 1000 - DateTimeOffset.Now.ToUnixTimeMilliseconds();
     }
 
-    public static InventoryType[] RetainerInventories => [InventoryType.RetainerPage1, InventoryType.RetainerPage2, InventoryType.RetainerPage3, InventoryType.RetainerPage4, InventoryType.RetainerPage5, InventoryType.RetainerPage6, InventoryType.RetainerPage7];
+    /// <summary>
+    /// regular retainer inventories
+    /// </summary>
+    public static InventoryType[] RetainerInventories => field ??= [InventoryType.RetainerPage1, InventoryType.RetainerPage2, InventoryType.RetainerPage3, InventoryType.RetainerPage4, InventoryType.RetainerPage5, InventoryType.RetainerPage6, InventoryType.RetainerPage7];
 
-    public static InventoryType[] RetainerInventoriesWithCrystals => [.. RetainerInventories, InventoryType.RetainerCrystals];
+    /// <summary>
+    /// regular inventories with crystals
+    /// </summary>
+    public static InventoryType[] RetainerInventoriesWithCrystals => field ??= [.. RetainerInventories, InventoryType.RetainerCrystals];
 
-    public static InventoryType[] PlayerInvetories => [InventoryType.Inventory1, InventoryType.Inventory2, InventoryType.Inventory3, InventoryType.Inventory4];
+    /// <summary>
+    /// regular inventories
+    /// </summary>
+    public static InventoryType[] PlayerInvetories => field ??= [InventoryType.Inventory1, InventoryType.Inventory2, InventoryType.Inventory3, InventoryType.Inventory4];
 
-    public static InventoryType[] PlayerInvetoriesWithCrystals => [.. PlayerInvetories, InventoryType.Crystals];
+    /// <summary>
+    /// regular inventories, crystals
+    /// </summary>
+    public static InventoryType[] PlayerInvetoriesWithCrystals => field ??= [.. PlayerInvetories, InventoryType.Crystals];
 
-    public static InventoryType[] PlayerArmory => [InventoryType.ArmoryOffHand, InventoryType.ArmoryHead, InventoryType.ArmoryBody, InventoryType.ArmoryHands, InventoryType.ArmoryWaist, InventoryType.ArmoryLegs, InventoryType.ArmoryFeets, InventoryType.ArmoryEar, InventoryType.ArmoryNeck, InventoryType.ArmoryWrist, InventoryType.ArmoryRings, InventoryType.ArmorySoulCrystal, InventoryType.ArmoryMainHand];
+    /// <summary>
+    /// only armory inventories
+    /// </summary>
+    public static InventoryType[] PlayerArmory => field ??= [InventoryType.ArmoryOffHand, InventoryType.ArmoryHead, InventoryType.ArmoryBody, InventoryType.ArmoryHands, InventoryType.ArmoryWaist, InventoryType.ArmoryLegs, InventoryType.ArmoryFeets, InventoryType.ArmoryEar, InventoryType.ArmoryNeck, InventoryType.ArmoryWrist, InventoryType.ArmoryRings, InventoryType.ArmorySoulCrystal, InventoryType.ArmoryMainHand];
 
-    public static InventoryType[] PlayerEntireInventory => [.. PlayerInvetories, .. PlayerArmory, InventoryType.EquippedItems];
+    /// <summary>
+    /// regular, armory, equipped items
+    /// </summary>
+    public static InventoryType[] PlayerEntireInventory => field ??= [.. PlayerInvetories, .. PlayerArmory, InventoryType.EquippedItems];
 
-    public static InventoryType[] RetainerEntireInventory => [.. RetainerInventoriesWithCrystals, InventoryType.RetainerMarket, InventoryType.RetainerEquippedItems];
+    /// <summary>
+    /// regular and armory
+    /// </summary>
+    public static InventoryType[] PlayerInventoryWithArmory => field ??= [.. PlayerInvetories, .. PlayerArmory];
+
+    /// <summary>
+    /// regular, crystals, market
+    /// </summary>
+    public static InventoryType[] RetainerEntireInventory => field ??= [.. RetainerInventoriesWithCrystals, InventoryType.RetainerMarket, InventoryType.RetainerEquippedItems];
 
     public static InventoryType[] GetAllowedInventories(this EntrustPlan plan)
     {
@@ -1106,6 +1137,7 @@ public static unsafe class Utils
 
     public static bool IsItemSellableByHardList(Number item, Number quantity)
     {
+        if(S.CabinetManager.ShouldExcludeItemFromProcessing(item)) return false;
         if(Data.GetIMSettings().IMProtectList.Contains(item)) return false;
         if(Data.GetIMSettings().IMAutoVendorHard.Contains(item))
         {

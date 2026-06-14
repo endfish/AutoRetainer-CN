@@ -6,6 +6,7 @@ using Lumina.Excel.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TerraFX.Interop.Windows;
 using Cabinet = Lumina.Excel.Sheets.Cabinet;
 
 namespace AutoRetainer.UI.NeoUI.AdvancedEntries.DebugSection;
@@ -14,14 +15,12 @@ public unsafe class DebugCabinet : DebugSectionBase
 {
     public override void Draw()
     {
-        var state = UIState.Instance()->Cabinet.State;
-        ImGuiEx.Text($"State: {state}");
-        foreach(var x in Cabinet.Values)
+        ImGuiEx.Text($"CanDeliverCabinet: {S.CabinetManager.CanDeliverCabinet()}");
+        if(ImGui.Button("Deliver items")) S.CabinetManager.EnqueueAllDeliverableItems();
+        if(ImGui.Button("EnqueueGoToInnAndDeliverEverything")) S.CabinetManager.EnqueueGoToInnAndDeliverEverything();
+        if(S.CabinetManager.TryGetStoredCabinetItems(out var cached, out var items))
         {
-            if(x.Item.RowId != 0)
-            {
-                ImGuiEx.Text(UIState.Instance()->Cabinet.IsItemInCabinet(x.RowId)?EColor.GreenBright:null, $"{ExcelItemHelper.GetName(x.Item.RowId, true)}");
-            }
+            ImGuiEx.Text($"Cached: {cached}");
         }
     }
 }

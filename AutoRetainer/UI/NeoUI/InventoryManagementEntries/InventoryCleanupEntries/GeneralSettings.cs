@@ -38,6 +38,7 @@ public class GeneralSettings : InventoryManagementBase
             .Unindent()
             .Checkbox($"Enable context menu integration", () => ref InventoryCleanupCommon.SelectedPlan.IMEnableContextMenu)
             .Checkbox($"Allow selling/discarding items from Armory Chest", () => ref InventoryCleanupCommon.SelectedPlan.AllowSellFromArmory)
+            .Checkbox("Deliver eligible items into Armoire when in Multi Mode", () => ref InventoryCleanupCommon.SelectedPlan.EnableCabinetAutoDelivery, "Items that are not in Armoire will be delivered there. Eligible items also will be excluded from being discarded, desynthesed, entrusted to retainers or delivered into grand company (only while you are running multi mode). This will trigger before Multi Mode Expert Delivery.")
             .Checkbox($"Demo mode", () => ref InventoryCleanupCommon.SelectedPlan.IMDry, "Do not sell/discard items, instead print in chat what would be sold")
             ;
     }

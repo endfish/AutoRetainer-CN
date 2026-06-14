@@ -189,7 +189,6 @@ public unsafe class AutoRetainer : IDalamudPlugin
         IPC.Init();
         VoyageMain.Init();
 
-        MultiMode.Init();
         NotificationMasterApi = new(Svc.PluginInterface);
         ODMTaskManager = new(new(timeLimitMS: 60 * 1000, abortOnTimeout: true, showDebug: true));
 
@@ -217,6 +216,7 @@ public unsafe class AutoRetainer : IDalamudPlugin
             }
         }
         SingletonServiceManager.Initialize(typeof(AutoRetainerServiceManager));
+        MultiMode.Init();
 
 
         if(C.MultiOnPluginLoad)
