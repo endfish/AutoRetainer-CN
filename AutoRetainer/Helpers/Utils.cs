@@ -49,6 +49,14 @@ namespace AutoRetainer.Helpers;
 
 public static unsafe class Utils
 {
+    public static bool HasVentureOrReadyToAssign(this OfflineRetainerData data, OfflineCharacterData characterData)
+    {
+        var adata = Utils.GetAdditionalData(characterData.CID, data.Name);
+        return data.HasVenture || (data.Level >= 10 &&
+            ((!C.DontReassign && C.EnableAssigningQuickExploration) || (adata != null && adata.EnablePlanner && adata.VenturePlan.List.Count > 0))
+            );
+    }
+
     public static byte[] GetResource(string s)
     {
         var asm = P.GetType().Assembly;
@@ -1312,7 +1320,7 @@ public static unsafe class Utils
         if(!ProperOnLogin.PlayerPresent) return false;
         if(C.OfflineData.TryGetFirst(x => x.CID == Svc.ClientState.LocalContentId, out var data))
         {
-            var selectedRetainers = data.GetEnabledRetainers().Where(z => z.HasVenture);
+            var selectedRetainers = data.GetEnabledRetainers().Where(z => z.HasVentureOrReadyToAssign(data));
             return selectedRetainers.Any(z => z.GetVentureSecondsRemaining() <= 10);
         }
         return false;
@@ -1748,6 +1756,7 @@ public static unsafe class Utils
 
     internal static long GetVentureSecondsRemaining(this OfflineRetainerData ret, bool allowNegative = true)
     {
+        if(!ret.HasVenture) return allowNegative ? -999 : Math.Max(0, -999);
         var x = ret.VentureEndsAt - P.Time;
         return allowNegative ? x : Math.Max(0, x);
     }

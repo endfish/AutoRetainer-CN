@@ -14,7 +14,8 @@ public unsafe class DebugCabinet : DebugSectionBase
 {
     public override void Draw()
     {
-        ImGuiEx.Text($"State: {UIState.Instance()->Cabinet.State}");
+        var state = UIState.Instance()->Cabinet.State;
+        ImGuiEx.Text($"State: {state}");
         foreach(var x in Cabinet.Values)
         {
             if(x.Item.RowId != 0)

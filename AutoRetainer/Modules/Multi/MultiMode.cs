@@ -473,7 +473,7 @@ internal static unsafe class MultiMode
     {
         if(C.SelectedRetainers.TryGetValue(data.CID, out var enabledRetainers))
         {
-            return data.RetainerData.Where(z => enabledRetainers.Contains(z.Name) && (!checkHasVenture || z.HasVenture)).ToArray();
+            return data.RetainerData.Where(z => enabledRetainers.Contains(z.Name) && (!checkHasVenture || z.HasVentureOrReadyToAssign(data))).ToArray();
         }
         return Array.Empty<OfflineRetainerData>();
     }
@@ -664,7 +664,7 @@ internal static unsafe class MultiMode
                 if(x.CID == Player.CID) continue;
                 if(x.Enabled && C.SelectedRetainers.TryGetValue(x.CID, out var enabledRetainers))
                 {
-                    var selectedRetainers = x.GetEnabledRetainers().Where(z => z.HasVenture);
+                    var selectedRetainers = x.GetEnabledRetainers().Where(z => z.HasVentureOrReadyToAssign(x));
                     if(selectedRetainers.Any() &&
                         C.MultiModeRetainerConfiguration.MultiWaitForAll ? selectedRetainers.All(z => z.GetVentureSecondsRemaining() <= 0) : selectedRetainers.Any(z => z.GetVentureSecondsRemaining() <= 0))
                     {
@@ -677,7 +677,7 @@ internal static unsafe class MultiMode
                 if(x.CID == Player.CID) continue;
                 if(x.Enabled && C.SelectedRetainers.TryGetValue(x.CID, out var enabledRetainers))
                 {
-                    var selectedRetainers = x.GetEnabledRetainers().Where(z => z.HasVenture);
+                    var selectedRetainers = x.GetEnabledRetainers().Where(z => z.HasVentureOrReadyToAssign(x));
                     if(selectedRetainers.Any() &&
                         C.MultiModeRetainerConfiguration.MultiWaitForAll ? selectedRetainers.All(z => z.GetVentureSecondsRemaining() <= C.MultiModeRetainerConfiguration.AdvanceTimer) : selectedRetainers.Any(z => z.GetVentureSecondsRemaining() <= C.MultiModeRetainerConfiguration.AdvanceTimer))
                     {
@@ -725,7 +725,7 @@ internal static unsafe class MultiMode
         if(!EnabledRetainers) return false;
         if(GetEnabledOfflineData().TryGetFirst(x => x.CID == Svc.ClientState.LocalContentId, out var data))
         {
-            var selectedRetainers = data.GetEnabledRetainers().Where(z => z.HasVenture);
+            var selectedRetainers = data.GetEnabledRetainers().Where(z => z.HasVentureOrReadyToAssign(data));
             return selectedRetainers.Any(z => z.GetVentureSecondsRemaining() <= seconds);
         }
         return false;
