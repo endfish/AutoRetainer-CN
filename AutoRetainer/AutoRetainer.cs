@@ -69,6 +69,7 @@ public unsafe class AutoRetainer : IDalamudPlugin
     internal MarketCooldownOverlay MarketCooldownOverlay;
     internal SubmarineUnlockPlanUI SubmarineUnlockPlanUI;
     internal SubmarinePointPlanUI SubmarinePointPlanUI;
+    internal bool TestRenderDisable = false;
 
     internal long Time => C.UseServerTime ? CSFramework.GetServerTime() : DateTimeOffset.Now.ToUnixTimeSeconds();
 

@@ -18,6 +18,7 @@ using ECommons.Throttlers;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
+using System.DirectoryServices.ActiveDirectory;
 using static AutoRetainer.Modules.OfflineDataManager;
 
 namespace AutoRetainer.Modules.Multi;
@@ -162,7 +163,7 @@ internal static unsafe class MultiMode
         {
             if(EzThrottler.Throttle("MultiNotify", 15000)) Utils.NotifyIfLifestreamIsNotInstalled("Multi Mode");
             ValidateAutoAfkSettings();
-            var shouldDisableRender = C.MultiDisableRender && (!C.MultiDisableRenderNightModeOnly || C.NightMode) && (!C.MultiDisableRenderOnlyInactive || TerraFX.Interop.Windows.Windows.IsIconic((TerraFX.Interop.Windows.HWND)(*ECommonsMain.MainWindowHandle)) || CSFramework.Instance()->WindowInactive);
+            var shouldDisableRender = (C.MultiDisableRender && (!C.MultiDisableRenderNightModeOnly || C.NightMode) && (!C.MultiDisableRenderOnlyInactive || TerraFX.Interop.Windows.Windows.IsIconic((TerraFX.Interop.Windows.HWND)(*ECommonsMain.MainWindowHandle)) || CSFramework.Instance()->WindowInactive)) || P.TestRenderDisable;
             if(shouldDisableRender)
             {
                 RenderDisableManager.PlaceRequest();
@@ -428,7 +429,9 @@ internal static unsafe class MultiMode
 
     internal static bool CanCabinetDeliver()
     {
-        if(!Data.GetIMSettings(true).EnableCabinetAutoDelivery) return false;
+        var data = Data;
+        if(Data == null) return false;
+        if(!data.GetIMSettings(true).EnableCabinetAutoDelivery) return false;
         var canDeliver = false;
         if(Utils.GetInventoryFreeSlotCount() <= C.FullAutoGCDeliveryInventory)
         {
