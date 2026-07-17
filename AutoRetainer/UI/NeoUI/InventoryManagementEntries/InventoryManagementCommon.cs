@@ -90,11 +90,11 @@ public unsafe class InventoryManagementCommon
                 ImGui.SetNextItemWidth(200f);
                 Modified |= ImGui.InputText("Filter by name".Loc() + "###Filter by name", ref ItemSearch, 100);
                 ImGui.SetNextItemWidth(200f);
-                if(ImGui.BeginCombo("Select rarity".Loc() + "###Select rarity", Rarities.Any() ? $"{Rarities.Print()}" : "Any rarity".Loc(), ImGuiComboFlags.HeightLarge))
+                if(ImGui.BeginCombo("Select rarity".Loc() + "###Select rarity", Rarities.Any() ? Rarities.Select(x => x.ToString().Loc()).Print() : "Any rarity".Loc(), ImGuiComboFlags.HeightLarge))
                 {
                     foreach(var r in Enum.GetValues<ItemRarity>())
                     {
-                        Modified |= ImGuiEx.CollectionCheckbox(r.ToString(), r, Rarities);
+                        Modified |= ImGuiEx.CollectionCheckbox(r.ToString().Loc(), r, Rarities);
                     }
                     ImGui.EndCombo();
                 }

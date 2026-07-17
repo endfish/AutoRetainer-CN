@@ -63,7 +63,7 @@ public sealed class VenturePlanner : Window
             }
             if (ImGui.BeginCombo("##selectLinked", n))
             {
-                if(ImGui.Selectable("Remove sharing"))
+                if(ImGui.Selectable("Remove sharing".Loc()))
                 {
                     adata.LinkedVenturePlan = "";
                 }
@@ -189,7 +189,7 @@ public sealed class VenturePlanner : Window
                     ImGuiEx.TextV("On plan completion:".Loc());
                     ImGui.SameLine();
                     ImGuiEx.SetNextItemFullWidth();
-                    ImGuiEx.EnumCombo("##cBeh", ref adata.VenturePlan.PlanCompleteBehavior);
+                    UIUtils.EnumCombo("##cBeh", ref adata.VenturePlan.PlanCompleteBehavior);
                     //ImGui.Separator();
                     var overwrite = C.SavedPlans.Any(x => x.Name == adata.VenturePlan.Name);
                     ImGuiEx.InputWithRightButtonsArea("SavePlan", delegate
@@ -229,7 +229,7 @@ public sealed class VenturePlanner : Window
                     ImGuiEx.TextV("Unavailable ventures:".Loc());
                     ImGui.SameLine();
                     ImGuiEx.SetNextItemFullWidth();
-                    ImGuiEx.EnumCombo("##unavail", ref C.UnavailableVentureDisplay);
+                    UIUtils.EnumCombo("##unavail", ref C.UnavailableVentureDisplay);
                     if(ImGui.BeginChild("##ventureCh", new(ImGui.GetContentRegionAvail().X, ImGuiHelpers.MainViewport.Size.Y / 3)))
                     {
                         if(ImGui.CollapsingHeader(VentureUtils.GetHuntingVentureName(SelectedRetainer.Job)))

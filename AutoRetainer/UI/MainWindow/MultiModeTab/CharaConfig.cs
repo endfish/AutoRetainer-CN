@@ -25,7 +25,7 @@ public class CharaConfig
                 if(!AutoGCHandin.Operation)
                 {
                     ImGuiEx.SetNextItemWidthScaled(200f);
-                    ImGuiEx.EnumCombo("##gcHandin", ref data.GCDeliveryType);
+                    UIUtils.EnumCombo("##gcHandin", ref data.GCDeliveryType);
                 }
                 else
                 {

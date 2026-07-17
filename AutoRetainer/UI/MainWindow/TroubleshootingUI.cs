@@ -27,7 +27,7 @@ public static unsafe class TroubleshootingUI
 
         if(C.CutsceneSkipMode != AutoRetainerAPI.Configuration.CutsceneSkipMode.Never)
         {
-            Info("Inn cutscene skip module is set to ??. Inn cutscene will be skipped by AutoRetainer.".Loc(C.CutsceneSkipMode));
+            Info("Inn cutscene skip module is set to ??. Inn cutscene will be skipped by AutoRetainer.".Loc(C.CutsceneSkipMode.ToString().Replace('_', ' ').Loc()));
         }
 
         if(Data == null)
@@ -221,7 +221,7 @@ public static unsafe class TroubleshootingUI
 
         if(C.MultiModeType != AutoRetainerAPI.Configuration.MultiModeType.Everything)
         {
-            Warning("Your MultiMode type is set to ??. This will limit functions that AutoRetainer will perform.".Loc(C.MultiModeType));
+            Warning("Your MultiMode type is set to ??. This will limit functions that AutoRetainer will perform.".Loc(C.MultiModeType.ToString().Replace('_', ' ').Loc()));
         }
 
         if(C.OfflineData.Any(x => x.MultiWaitForAllDeployables))
@@ -375,7 +375,9 @@ public static unsafe class TroubleshootingUI
         var current = C.GetFoP(nameOfSetting);
         if(!original.Equals(current))
         {
-            Info("Expert setting \"??\" differs from default".Loc(setting), "Default is \"??\", current is \"??\".".Loc(original, current));
+            var originalDisplay = original is Enum originalEnum ? originalEnum.ToString().Replace('_', ' ').Loc() : original;
+            var currentDisplay = current is Enum currentEnum ? currentEnum.ToString().Replace('_', ' ').Loc() : current;
+            Info("Expert setting \"??\" differs from default".Loc(setting), "Default is \"??\", current is \"??\".".Loc(originalDisplay, currentDisplay));
         }
     }
 }

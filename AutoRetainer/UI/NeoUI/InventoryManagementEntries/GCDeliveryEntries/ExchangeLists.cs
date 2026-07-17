@@ -199,7 +199,7 @@ public sealed unsafe class ExchangeLists : InventoryManagementBase
             }, () =>
             {
                 ImGui.SetNextItemWidth(100f);
-                ImGuiEx.EnumCombo("##cat2", ref SelectedCategory2, nullName: "All Categories".Loc());
+                UIUtils.EnumCombo("##cat2", ref SelectedCategory2, nullName: "All Categories".Loc());
                 ImGuiEx.Tooltip("Category".Loc());
             });
             foreach(var x in Utils.SharedGCExchangeListings)
@@ -280,7 +280,7 @@ public sealed unsafe class ExchangeLists : InventoryManagementBase
             ImGui.Checkbox("Only Selected".Loc(), ref onlySelected());
             ImGui.SameLine();
             ImGui.SetNextItemWidth(100f);
-            ImGuiEx.EnumCombo("##cat", ref SelectedCategory, nullName: "All Categories".Loc());
+            UIUtils.EnumCombo("##cat", ref SelectedCategory, nullName: "All Categories".Loc());
             ImGuiEx.Tooltip("Category".Loc());
         });
 
@@ -349,7 +349,7 @@ public sealed unsafe class ExchangeLists : InventoryManagementBase
                 }
                 ImGuiEx.TextV($"{meta.Seals}");
                 ImGui.TableNextColumn();
-                ImGuiEx.TextV($"{meta.Category}");
+                ImGuiEx.TextV(meta.Category.ToString().Loc());
                 if(ImGuiEx.HoveredAndClicked()) getFilter() = meta.Category.ToString();
                 ImGui.TableNextColumn();
                 if(currentItem.Data.Value.IsUnique)

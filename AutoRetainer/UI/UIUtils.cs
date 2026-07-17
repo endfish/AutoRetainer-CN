@@ -3,6 +3,7 @@ using AutoRetainerAPI.Configuration;
 using ECommons.GameHelpers;
 using ECommons.Interop;
 using Lumina.Excel.Sheets;
+using System.Runtime.CompilerServices;
 
 namespace AutoRetainer.UI;
 
@@ -10,7 +11,7 @@ internal static class UIUtils
 {
     public static void DrawSortableEnumList<T>(string id, List<T> list) where T : struct, Enum
     {
-        ref var dragDrop = ref Ref<ImGuiEx.RealtimeDragDrop<T>>.Get($"dsel{id}", () => new($"dsel{id}", x => x.ToString()));
+        ref var dragDrop = ref Ref<ImGuiEx.RealtimeDragDrop<T>>.Get($"dsel{id}", () => new($"dsel{id}", x => x.ToStringEx().Loc()));
         ImGui.PushID(id);
         if(ImGui.BeginCombo("##addNew", "Add Entries...".Loc(), ImGuiComboFlags.HeightLarge))
         {
@@ -18,7 +19,7 @@ internal static class UIUtils
             {
                 if(!list.Contains(x))
                 {
-                    if(ImGui.Selectable(x.ToStringEx(), false, ImGuiSelectableFlags.DontClosePopups))
+                    if(ImGui.Selectable(x.ToStringEx().Loc(), false, ImGuiSelectableFlags.DontClosePopups))
                     {
                         list.Add(x);
                     }
@@ -38,7 +39,7 @@ internal static class UIUtils
                 new TickScheduler(() => list.Remove(x));
             }
             ImGui.SameLine();
-            ImGuiEx.Text(x.ToStringEx());
+            ImGuiEx.Text(x.ToStringEx().Loc());
             ImGui.PopID();
         }
         dragDrop.End();
@@ -48,6 +49,138 @@ internal static class UIUtils
     public static string ToStringEx<T>(this T obj) where T : Enum
     {
         return obj.ToString().Replace('_', ' ');
+    }
+
+    public static Dictionary<T, string> EnumNames<T>() where T : Enum, IConvertible
+    {
+        return Enum.GetValues(typeof(T)).Cast<T>().ToDictionary(x => x, x => x.ToStringEx().Loc());
+    }
+
+    public static Dictionary<T, string> GameItemEnumNames<T>() where T : Enum, IConvertible
+    {
+        var items = Svc.Data.GetExcelSheet<Item>();
+        return Enum.GetValues(typeof(T)).Cast<T>().ToDictionary(x => x, x => items.GetRow(Convert.ToUInt32(x)).Name.ToString());
+    }
+
+    public static bool EnumCombo<T>(string name, ref T value, IDictionary<T, string> names = null) where T : Enum, IConvertible
+    {
+        return ImGuiEx.EnumCombo(name, ref value, names ?? EnumNames<T>());
+    }
+
+    public static bool EnumCombo<T>(string name, ref T? value, IDictionary<T, string> names = null, string nullName = null) where T : struct, Enum, IConvertible
+    {
+        return ImGuiEx.EnumCombo(name, ref value, names: names ?? EnumNames<T>(), nullName: nullName ?? "Not selected".Loc());
+    }
+
+    public static void DragDropRepopulate<T>(string dragDropIdentifier, T data, Action<T> callback) where T : struct
+    {
+        ImGuiEx.Tooltip("Drag this selector to other selectors to set their values to the same".Loc());
+        if(ImGui.BeginDragDropSource(ImGuiDragDropFlags.SourceNoPreviewTooltip))
+        {
+            try
+            {
+                ImGuiDragDrop.SetDragDropPayload(dragDropIdentifier, data);
+                ImGui.SetMouseCursor(ImGuiMouseCursor.ResizeAll);
+            }
+            catch(Exception e)
+            {
+                e.Log();
+            }
+            ImGui.EndDragDropSource();
+        }
+        if(ImGui.BeginDragDropTarget())
+        {
+            try
+            {
+                if(ImGuiDragDrop.AcceptDragDropPayload<T>(dragDropIdentifier, out var outId, ImGuiDragDropFlags.AcceptBeforeDelivery | ImGuiDragDropFlags.AcceptNoPreviewTooltip))
+                {
+                    callback(outId);
+                }
+            }
+            catch(Exception e)
+            {
+                e.Log();
+            }
+            ImGui.EndDragDropTarget();
+        }
+    }
+
+    public static void DragDropRepopulate<T>(string dragDropIdentifier, T data, ref T field) where T : struct
+    {
+        ImGuiEx.Tooltip("Drag this selector to other selectors to set their values to the same".Loc());
+        if(ImGui.BeginDragDropSource(ImGuiDragDropFlags.SourceNoPreviewTooltip))
+        {
+            try
+            {
+                ImGuiDragDrop.SetDragDropPayload(dragDropIdentifier, data);
+                ImGui.SetMouseCursor(ImGuiMouseCursor.ResizeAll);
+            }
+            catch(Exception e)
+            {
+                e.Log();
+            }
+            ImGui.EndDragDropSource();
+        }
+        if(ImGui.BeginDragDropTarget())
+        {
+            try
+            {
+                if(ImGuiDragDrop.AcceptDragDropPayload<T>(dragDropIdentifier, out var outId, ImGuiDragDropFlags.AcceptBeforeDelivery | ImGuiDragDropFlags.AcceptNoPreviewTooltip))
+                {
+                    field = outId;
+                }
+            }
+            catch(Exception e)
+            {
+                e.Log();
+            }
+            ImGui.EndDragDropTarget();
+        }
+    }
+
+    public static void DragDropRepopulateClass<T>(string dragDropIdentifier, T data, Action<T> callback) where T : class
+    {
+        var table = Ref<ConditionalWeakTable<T, Box<Guid>>>.Get("__AutoRetainer.DragDropRepopulateClass", () => new ConditionalWeakTable<T, Box<Guid>>());
+        table.TryAdd(data, new(Guid.NewGuid()));
+        if(table.TryGetValue(data, out var box))
+        {
+            ImGuiEx.Tooltip("Drag this selector to other selectors to set their values to the same".Loc());
+            if(ImGui.BeginDragDropSource(ImGuiDragDropFlags.SourceNoPreviewTooltip))
+            {
+                try
+                {
+                    ImGuiDragDrop.SetDragDropPayload(dragDropIdentifier, box.Value);
+                    ImGui.SetMouseCursor(ImGuiMouseCursor.ResizeAll);
+                }
+                catch(Exception e)
+                {
+                    e.Log();
+                }
+                ImGui.EndDragDropSource();
+            }
+            if(ImGui.BeginDragDropTarget())
+            {
+                try
+                {
+                    if(ImGuiDragDrop.AcceptDragDropPayload<Guid>(dragDropIdentifier, out var outId, ImGuiDragDropFlags.AcceptBeforeDelivery | ImGuiDragDropFlags.AcceptNoPreviewTooltip))
+                    {
+                        foreach(var x in table)
+                        {
+                            if(x.Value.Value == outId)
+                            {
+                                callback(x.Key);
+                                break;
+                            }
+                        }
+                    }
+                }
+                catch(Exception e)
+                {
+                    e.Log();
+                }
+                ImGui.EndDragDropTarget();
+            }
+        }
     }
 
     public static bool PushColIfPreferredCurrent(this OfflineCharacterData data)

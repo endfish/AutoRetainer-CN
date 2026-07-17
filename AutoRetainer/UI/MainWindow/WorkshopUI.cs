@@ -52,7 +52,7 @@ internal static unsafe class WorkshopUI
             ImGuiEx.ButtonCheckbox($"\uf21a##{data.CID}", ref data.WorkshopEnabled, 0xFF097000);
             ImGui.PopFont();
             ImGuiEx.Tooltip("Enable submersibles in multi mode on this character".Loc());
-            ImGuiEx.DragDropRepopulate("RepopWsEn", data.WorkshopEnabled, ref data.WorkshopEnabled);
+            UIUtils.DragDropRepopulate("RepopWsEn", data.WorkshopEnabled, ref data.WorkshopEnabled);
             ImGui.SameLine(0, 3);
             if(ImGuiEx.IconButton(FontAwesomeIcon.DoorOpen))
             {
@@ -403,7 +403,7 @@ internal static unsafe class WorkshopUI
         }
         void repop()
         {
-            ImGuiEx.DragDropRepopulateClass("RepSubConf", adata, x =>
+            UIUtils.DragDropRepopulateClass("RepSubConf", adata, x =>
             {
                 adata.VesselBehavior = x.VesselBehavior;
                 if(adata.VesselBehavior == VesselBehavior.Use_plan)
@@ -488,11 +488,11 @@ internal static unsafe class WorkshopUI
         {
             ImGui.CollapsingHeader("?? - ?? Configuration".Loc(vessel.Name, Censor.Character(data.Name)) + "  ##conf", ImGuiTreeNodeFlags.DefaultOpen | ImGuiTreeNodeFlags.Bullet | ImGuiTreeNodeFlags.OpenOnArrow);
             ImGuiEx.Text("Vessel behavior:".Loc());
-            ImGuiEx.EnumCombo("##vbeh", ref adata.VesselBehavior);
+            UIUtils.EnumCombo("##vbeh", ref adata.VesselBehavior);
             if(adata.VesselBehavior == VesselBehavior.Unlock)
             {
                 ImGuiEx.Text("Unlock mode:".Loc());
-                ImGuiEx.EnumCombo("##umode", ref adata.UnlockMode, Lang.UnlockModeNames);
+                UIUtils.EnumCombo("##umode", ref adata.UnlockMode, Lang.UnlockModeNames);
                 var currentPlan = VoyageUtils.GetSubmarineUnlockPlanByGuid(adata.SelectedUnlockPlan) ?? VoyageUtils.GetDefaultSubmarineUnlockPlan(false);
                 var isDefault = VoyageUtils.GetSubmarineUnlockPlanByGuid(adata.SelectedUnlockPlan) == null;
                 var text = Environment.TickCount64 % 2000 > 1000 ? "Unlocking every point".Loc() : "No or unknown plan selected".Loc();

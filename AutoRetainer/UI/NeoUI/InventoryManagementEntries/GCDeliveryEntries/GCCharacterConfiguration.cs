@@ -43,12 +43,12 @@ public sealed unsafe class GCCharacterConfiguration : InventoryManagementBase
                     }
                     ImGui.EndCombo();
                 }
-                ImGuiEx.DragDropRepopulate("Plan", plan?.GUID ?? Guid.Empty, ref characterData.ExchangePlan);
+                UIUtils.DragDropRepopulate("Plan", plan?.GUID ?? Guid.Empty, ref characterData.ExchangePlan);
 
                 ImGui.TableNextColumn();
                 ImGui.SetNextItemWidth(150f);
-                ImGuiEx.EnumCombo("##deliveryMode", ref characterData.GCDeliveryType);
-                ImGuiEx.DragDropRepopulate("Mode", characterData.GCDeliveryType, ref characterData.GCDeliveryType);
+                UIUtils.EnumCombo("##deliveryMode", ref characterData.GCDeliveryType);
+                UIUtils.DragDropRepopulate("Mode", characterData.GCDeliveryType, ref characterData.GCDeliveryType);
 
                 ImGui.PopID();
             }

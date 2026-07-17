@@ -173,7 +173,7 @@ internal unsafe class AutoRetainerWindow : Window
             {
                 ImGui.SameLine();
                 ImGuiEx.SetNextItemWidthScaled(100f);
-                ImGuiEx.EnumCombo("##mode", ref C.MultiModeType);
+                UIUtils.EnumCombo("##mode", ref C.MultiModeType);
             }
             if(C.CharEqualize && MultiMode.Enabled)
             {

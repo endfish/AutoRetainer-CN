@@ -218,7 +218,7 @@ public class DeployablesTab : NeoUIEntry
 
         ImGui.Separator();
         ImGui.SetNextItemWidth(150f);
-        ImGuiEx.EnumCombo("##behavior", ref MassBehavior);
+        UIUtils.EnumCombo("##behavior", ref MassBehavior);
         ImGui.SameLine();
         if(ImGuiEx.IconButtonWithText((FontAwesomeIcon)'\uf018', "Set behavior".Loc()))
         {
@@ -239,7 +239,7 @@ public class DeployablesTab : NeoUIEntry
 
         ImGui.Separator();
         ImGui.SetNextItemWidth(150f);
-        ImGuiEx.EnumCombo("##unlockmode", ref MassUnlockMode, Lang.UnlockModeNames);
+        UIUtils.EnumCombo("##unlockmode", ref MassUnlockMode, Lang.UnlockModeNames);
         ImGui.SameLine();
         if(ImGuiEx.IconButtonWithText((FontAwesomeIcon)'\uf09c', "Set unlock mode".Loc()))
         {
@@ -422,27 +422,27 @@ public class DeployablesTab : NeoUIEntry
                 ImGui.Text("Hull:".Loc());
                 ImGui.SameLine(60f);
                 ImGui.SetNextItemWidth(100f);
-                ImGuiEx.EnumCombo($"##hull{entry.GUID}", ref entry.Part1);
+                UIUtils.EnumCombo($"##hull{entry.GUID}", ref entry.Part1, UIUtils.GameItemEnumNames<Hull>());
 
                 ImGui.Text("Stern:".Loc());
                 ImGui.SameLine(60f);
                 ImGui.SetNextItemWidth(100f);
-                ImGuiEx.EnumCombo($"##stern{entry.GUID}", ref entry.Part2);
+                UIUtils.EnumCombo($"##stern{entry.GUID}", ref entry.Part2, UIUtils.GameItemEnumNames<Stern>());
 
                 ImGui.Text("Bow:".Loc());
                 ImGui.SameLine(60f);
                 ImGui.SetNextItemWidth(100f);
-                ImGuiEx.EnumCombo($"##bow{entry.GUID}", ref entry.Part3);
+                UIUtils.EnumCombo($"##bow{entry.GUID}", ref entry.Part3, UIUtils.GameItemEnumNames<Bow>());
 
                 ImGui.Text("Bridge:".Loc());
                 ImGui.SameLine(60f);
                 ImGui.SetNextItemWidth(100f);
-                ImGuiEx.EnumCombo($"##bridge{entry.GUID}", ref entry.Part4);
+                UIUtils.EnumCombo($"##bridge{entry.GUID}", ref entry.Part4, UIUtils.GameItemEnumNames<Bridge>());
 
                 ImGui.Text("Behavior:".Loc());
                 ImGui.SameLine(60f);
                 ImGui.SetNextItemWidth(150f);
-                ImGuiEx.EnumCombo($"##behavior{entry.GUID}", ref entry.VesselBehavior);
+                UIUtils.EnumCombo($"##behavior{entry.GUID}", ref entry.VesselBehavior);
                 ImGui.Text("Plan:".Loc());
                 ImGui.SameLine(60f);
                 if(entry.VesselBehavior == VesselBehavior.Unlock)
@@ -467,7 +467,7 @@ public class DeployablesTab : NeoUIEntry
                     ImGui.Text("Mode:".Loc());
                     ImGui.SameLine(60f);
                     ImGui.SetNextItemWidth(150f);
-                    ImGuiEx.EnumCombo($"##unlockmode{entry.GUID}", ref entry.UnlockMode);
+                    UIUtils.EnumCombo($"##unlockmode{entry.GUID}", ref entry.UnlockMode, Lang.UnlockModeNames);
                 }
                 else if(entry.VesselBehavior == VesselBehavior.Use_plan)
                 {
@@ -495,7 +495,7 @@ public class DeployablesTab : NeoUIEntry
                     ImGui.Text("First Sub Behavior:".Loc());
                     ImGui.SameLine(150f);
                     ImGui.SetNextItemWidth(150f);
-                    ImGuiEx.EnumCombo($"##firstSubBehavior{entry.GUID}", ref entry.FirstSubVesselBehavior);
+                    UIUtils.EnumCombo($"##firstSubBehavior{entry.GUID}", ref entry.FirstSubVesselBehavior);
                     ImGui.Text("First Sub Plan:".Loc());
                     ImGui.SameLine(150f);
                     if(entry.FirstSubVesselBehavior == VesselBehavior.Unlock)
@@ -520,7 +520,7 @@ public class DeployablesTab : NeoUIEntry
                         ImGui.Text("First Sub Mode:".Loc());
                         ImGui.SameLine(150f);
                         ImGui.SetNextItemWidth(150f);
-                        ImGuiEx.EnumCombo($"##firstSubUnlockmode{entry.GUID}", ref entry.FirstSubUnlockMode);
+                        UIUtils.EnumCombo($"##firstSubUnlockmode{entry.GUID}", ref entry.FirstSubUnlockMode, Lang.UnlockModeNames);
                     }
                     else if(entry.FirstSubVesselBehavior == VesselBehavior.Use_plan)
                     {

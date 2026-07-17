@@ -65,7 +65,7 @@ public sealed class NeoWindow : Window
         FileSystem.Draw(null);
 
         /*ImGuiEx.SetNextItemFullWidth();
-        if(ImGui.BeginCombo("##selConf", Selected?.Path ?? "Select section", ImGuiComboFlags.HeightLarge))
+        if(ImGui.BeginCombo("##selConf", Selected?.Path ?? "Select section".Loc(), ImGuiComboFlags.HeightLarge))
         {
             foreach(var x in Tabs)
             {

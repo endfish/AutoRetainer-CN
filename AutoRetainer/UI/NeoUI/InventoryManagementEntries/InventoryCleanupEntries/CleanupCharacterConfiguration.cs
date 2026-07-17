@@ -43,7 +43,7 @@ public sealed unsafe class CleanupCharacterConfiguration : InventoryManagementBa
                     }
                     ImGui.EndCombo();
                 }
-                ImGuiEx.DragDropRepopulate("CleanupPlan", plan?.GUID ?? Guid.Empty, ref characterData.InventoryCleanupPlan);
+                UIUtils.DragDropRepopulate("CleanupPlan", plan?.GUID ?? Guid.Empty, ref characterData.InventoryCleanupPlan);
 
                 ImGui.PopID();
             }

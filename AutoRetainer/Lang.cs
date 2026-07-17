@@ -38,11 +38,11 @@ internal static class Lang
 
     internal static string LogOutAndExitGame => Svc.Data.GetExcelSheet<Addon>().GetRow(116).Text.GetText(true).Cleanup();
 
-    internal static readonly ReadOnlyDictionary<UnlockMode, string> UnlockModeNames = new(new Dictionary<UnlockMode, string>()
+    internal static ReadOnlyDictionary<UnlockMode, string> UnlockModeNames => new(new Dictionary<UnlockMode, string>()
     {
-        { UnlockMode.MultiSelect, "Pick max amount of destinations" },
-        { UnlockMode.SpamOne, "Spam one destination" },
-        { UnlockMode.WhileLevelling, "Include one unlock destination while levelling" },
+        { UnlockMode.MultiSelect, "Pick max amount of destinations".Loc() },
+        { UnlockMode.SpamOne, "Spam one destination".Loc() },
+        { UnlockMode.WhileLevelling, "Include one unlock destination while levelling".Loc() },
     });
 
     internal static readonly (string Normal, string GameFont) Digits = ("0123456789", "");

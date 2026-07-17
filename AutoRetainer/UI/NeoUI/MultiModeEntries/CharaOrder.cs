@@ -47,7 +47,7 @@ public class CharaOrder : NeoUIEntry
                         C.SelectedRetainers.Remove(chr.CID);
                     }
                     ImGuiEx.Tooltip("Enable retainers".Loc());
-                    ImGuiEx.DragDropRepopulate("EnRet", chr.ExcludeRetainer, ref chr.ExcludeRetainer);
+                    UIUtils.DragDropRepopulate("EnRet", chr.ExcludeRetainer, ref chr.ExcludeRetainer);
                     ImGui.SameLine();
                     if(ImGuiEx.ButtonCheckbox(FontAwesomeIcon.Ship, ref chr.ExcludeWorkshop, inverted: true))
                     {
@@ -56,7 +56,7 @@ public class CharaOrder : NeoUIEntry
                         chr.EnabledAirships.Clear();
                     }
                     ImGuiEx.Tooltip("Enable deployables".Loc());
-                    ImGuiEx.DragDropRepopulate("EnDep", chr.ExcludeWorkshop, x =>
+                    UIUtils.DragDropRepopulate("EnDep", chr.ExcludeWorkshop, x =>
                     {
                         chr.ExcludeWorkshop = x;
                         if(!x)
@@ -68,15 +68,15 @@ public class CharaOrder : NeoUIEntry
                     ImGui.SameLine();
                     ImGuiEx.ButtonCheckbox(FontAwesomeIcon.DoorOpen, ref chr.ExcludeOverlay, inverted: true);
                     ImGuiEx.Tooltip("Display on login overlay".Loc());
-                    ImGuiEx.DragDropRepopulate("EnLog", chr.ExcludeOverlay, ref chr.ExcludeOverlay);
+                    UIUtils.DragDropRepopulate("EnLog", chr.ExcludeOverlay, ref chr.ExcludeOverlay);
                     ImGui.SameLine();
                     ImGuiEx.ButtonCheckbox(FontAwesomeIcon.Coins, ref chr.NoGilTrack, inverted: true);
                     ImGuiEx.Tooltip("Count gil on this character towards total".Loc());
-                    ImGuiEx.DragDropRepopulate("EnGil", chr.NoGilTrack, ref chr.NoGilTrack);
+                    UIUtils.DragDropRepopulate("EnGil", chr.NoGilTrack, ref chr.NoGilTrack);
                     ImGui.SameLine();
                     ImGuiEx.ButtonCheckbox(FontAwesomeIcon.GasPump, ref chr.AutoFuelPurchase, color:ImGuiColors.TankBlue);
                     ImGuiEx.Tooltip("Allow this character to purchase fuel from workshop".Loc());
-                    ImGuiEx.DragDropRepopulate("EnFuel", chr.AutoFuelPurchase, ref chr.AutoFuelPurchase);
+                    UIUtils.DragDropRepopulate("EnFuel", chr.AutoFuelPurchase, ref chr.AutoFuelPurchase);
                     ImGui.TableNextColumn();
                     if(ImGuiEx.IconButton(FontAwesomeIcon.UserMinus))
                     {
