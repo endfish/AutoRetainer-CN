@@ -118,6 +118,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Update="LanguageChinese.ini">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="AutoRetainer.json">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>

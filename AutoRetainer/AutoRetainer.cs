@@ -136,6 +136,7 @@ public unsafe class AutoRetainer : IDalamudPlugin
     {
         EzConfig.Migrate<Config>();
         config = EzConfig.Init<Config>();
+        Localization.Init(C.PluginLanguage == "English" ? null : C.PluginLanguage);
 
         //windows
         WindowSystem = new();

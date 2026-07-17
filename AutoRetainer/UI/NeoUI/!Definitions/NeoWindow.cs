@@ -44,7 +44,7 @@ public sealed class NeoWindow : Window
 
     public NeoUIEntry Selected;
 
-    public NeoWindow() : base("AutoRetainer Configuration")
+    public NeoWindow() : base("AutoRetainer Configuration".Loc())
     {
         P.WindowSystem.AddWindow(this);
         this.SetMinSize();

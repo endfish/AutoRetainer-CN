@@ -6,7 +6,7 @@ namespace AutoRetainer.UI.NeoUI.MultiModeEntries;
 
 public class MultiModeDisableRender : NeoUIEntry
 {
-    public override string Path => "Multi Mode/Disable Render";
+    public override string Path => "Multi Mode/Disable Render".Loc();
 
     public override NuiBuilder Builder => new NuiBuilder()
         .Section("Disable Render")

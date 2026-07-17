@@ -3,7 +3,7 @@
 namespace AutoRetainer.UI.NeoUI.MultiModeEntries;
 public class CharaOrder : NeoUIEntry
 {
-    public override string Path => "Multi Mode/Functions, Exclusions, Order";
+    public override string Path => "Multi Mode/Functions, Exclusions, Order".Loc();
 
     private static string Search = "";
     private static ImGuiEx.RealtimeDragDrop<OfflineCharacterData> DragDrop = new("CharaOrder", x => x.Identity);

@@ -1,7 +1,7 @@
 ﻿namespace AutoRetainer.UI.NeoUI;
 public class Keybinds : NeoUIEntry
 {
-    public override string Path => "Keybinds";
+    public override string Path => "Keybinds".Loc();
 
     public override NuiBuilder Builder { get; init; } = new NuiBuilder()
         .Section("Access summoning bell/workshop panel keybinds")

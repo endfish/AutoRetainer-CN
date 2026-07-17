@@ -1,7 +1,7 @@
 ﻿namespace AutoRetainer.UI.NeoUI.MultiModeEntries;
 public class MultiModeRetainers : NeoUIEntry
 {
-    public override string Path => "Multi Mode/Retainers";
+    public override string Path => "Multi Mode/Retainers".Loc();
 
     public override NuiBuilder Builder { get; init; } = new NuiBuilder()
         .Section("Multi Mode - Retainers")

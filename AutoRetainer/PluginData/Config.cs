@@ -9,6 +9,7 @@ namespace AutoRetainer.PluginData;
 internal unsafe class Config
 {
     public string CensorSeed = Guid.NewGuid().ToString();
+    public string PluginLanguage = "Chinese";
     public Dictionary<ulong, HashSet<string>> SelectedRetainers = [];
     public bool EnableAssigningQuickExploration = false;
     public bool Verbose = false;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AutoRetainer.UI.NeoUI.AdvancedEntries;
 public unsafe sealed class CharacterSync : NeoUIEntry
 {
-    public override string Path => "Advanced/Character Synchronization";
+    public override string Path => "Advanced/Character Synchronization".Loc();
 
     private List<string> ToDelete = [];
 

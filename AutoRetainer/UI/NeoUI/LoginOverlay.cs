@@ -1,7 +1,7 @@
 ﻿namespace AutoRetainer.UI.NeoUI;
 public class LoginOverlay : NeoUIEntry
 {
-    public override string Path => "Login Overlay";
+    public override string Path => "Login Overlay".Loc();
 
     public override NuiBuilder Builder { get; init; } = new NuiBuilder()
             .Section("Login Overlay")

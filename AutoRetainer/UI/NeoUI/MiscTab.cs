@@ -1,7 +1,7 @@
 ﻿namespace AutoRetainer.UI.NeoUI;
 public class MiscTab : NeoUIEntry
 {
-    public override string Path => "Miscellaneous";
+    public override string Path => "Miscellaneous".Loc();
 
     public override NuiBuilder Builder { get; init; } = new NuiBuilder()
         .Section("Statistics")

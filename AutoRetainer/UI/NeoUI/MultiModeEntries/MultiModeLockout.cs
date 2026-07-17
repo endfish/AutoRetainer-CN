@@ -3,7 +3,7 @@
 namespace AutoRetainer.UI.NeoUI.MultiModeEntries;
 public class MultiModeLockout : NeoUIEntry
 {
-    public override string Path => "Multi Mode/Region Lock";
+    public override string Path => "Multi Mode/Region Lock".Loc();
 
     private int Num = 12;
 

@@ -1,7 +1,7 @@
 ﻿namespace AutoRetainer.UI.NeoUI.MultiModeEntries;
 public class MultiModeCommon : NeoUIEntry
 {
-    public override string Path => "Multi Mode/Common Settings";
+    public override string Path => "Multi Mode/Common Settings".Loc();
 
     public override NuiBuilder Builder { get; init; } = new NuiBuilder()
         .Section("Common Settings")
