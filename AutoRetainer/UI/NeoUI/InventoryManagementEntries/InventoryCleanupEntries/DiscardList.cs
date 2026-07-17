@@ -16,9 +16,9 @@ public unsafe sealed class DiscardList : InventoryManagementBase
     private DiscardList()
     {
         Builder = InventoryCleanupCommon.CreateCleanupHeaderBuilder()
-            .Section(Name)
-            .TextWrapped("These items will always be discarded, regardless of their source, as long as their stack count does not exceeds specified amount that you can specify below. Discards occur very frequently, before and after each action that may alter inventory. Discard is always prioritized, even if same item is present in sell or desynthesis list, it will be discarded. Protected items won't be discarded. ")
-            .InputInt(150f, $"Maximum stack size to be discarded", () => ref InventoryCleanupCommon.SelectedPlan.IMDiscardStackLimit)
+            .Section(Name.Loc())
+            .TextWrapped("These items will always be discarded, regardless of their source, as long as their stack count does not exceeds specified amount that you can specify below. Discards occur very frequently, before and after each action that may alter inventory. Discard is always prioritized, even if same item is present in sell or desynthesis list, it will be discarded. Protected items won't be discarded. ".Loc())
+            .InputInt(150f, "Maximum stack size to be discarded".Loc(), () => ref InventoryCleanupCommon.SelectedPlan.IMDiscardStackLimit)
             .Widget(() => InventoryManagementCommon.DrawListNew(
                 itemId => InventoryCleanupCommon.SelectedPlan.AddItemToList(IMListKind.Discard, itemId, out _),
                 itemId => InventoryCleanupCommon.SelectedPlan.IMDiscardList.Remove(itemId),
@@ -29,7 +29,7 @@ public unsafe sealed class DiscardList : InventoryManagementBase
                     ImGui.PushFont(UiBuilder.IconFont);
                     ImGuiEx.CollectionButtonCheckbox(FontAwesomeIcon.Database.ToIconString(), x, InventoryCleanupCommon.SelectedPlan.IMDiscardIgnoreStack);
                     ImGui.PopFont();
-                    ImGuiEx.Tooltip($"Ignore stack setting for this item");
+                    ImGuiEx.Tooltip("Ignore stack setting for this item".Loc());
                 }))
             .Separator()
             .Widget(() =>

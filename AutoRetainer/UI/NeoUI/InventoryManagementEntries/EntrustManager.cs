@@ -15,14 +15,14 @@ public class EntrustManager : InventoryManagementBase
 
     public override void Draw()
     {
-        ImGuiEx.TextWrapped("Use advanced entrust manager to entrust specific items to specific retainers. In this window you can configure specific plans; then, you can assign entrust plans to your retainers in retainer configuration window.");
-        ImGui.Checkbox("Enable", ref C.EnableEntrustManager);
-        ImGui.Checkbox("Output entrusted items into chat", ref C.EnableEntrustChat);
+        ImGuiEx.TextWrapped("Use advanced entrust manager to entrust specific items to specific retainers. In this window you can configure specific plans; then, you can assign entrust plans to your retainers in retainer configuration window.".Loc());
+        ImGui.Checkbox("Enable".Loc(), ref C.EnableEntrustManager);
+        ImGui.Checkbox("Output entrusted items into chat".Loc(), ref C.EnableEntrustChat);
         var selectedPlan = C.EntrustPlans.FirstOrDefault(x => x.Guid == SelectedGuid);
 
         ImGuiEx.InputWithRightButtonsArea(() =>
         {
-            if(ImGui.BeginCombo($"##select", selectedPlan?.Name ?? "Select plan...", ImGuiComboFlags.HeightLarge))
+            if(ImGui.BeginCombo($"##select", selectedPlan?.Name ?? "Select plan...".Loc(), ImGuiComboFlags.HeightLarge))
             {
                 for(var i = 0; i < C.EntrustPlans.Count; i++)
                 {
@@ -43,14 +43,14 @@ public class EntrustManager : InventoryManagementBase
                 var plan = new EntrustPlan();
                 C.EntrustPlans.Add(plan);
                 SelectedGuid = plan.Guid;
-                plan.Name = $"Entrust plan {C.EntrustPlans.Count}";
+                plan.Name = "Entrust plan ??".Loc(C.EntrustPlans.Count);
             }
             ImGui.SameLine();
             if(ImGuiEx.IconButton(FontAwesomeIcon.Trash, enabled: selectedPlan != null && ImGuiEx.Ctrl))
             {
                 C.EntrustPlans.Remove(selectedPlan);
             }
-            ImGuiEx.Tooltip("Hold CTRL and click");
+            ImGuiEx.Tooltip("Hold CTRL and click".Loc());
             ImGui.SameLine();
             if(ImGuiEx.IconButton(FontAwesomeIcon.Copy, enabled: selectedPlan != null))
             {
@@ -66,7 +66,7 @@ public class EntrustManager : InventoryManagementBase
                     if(plan.GetType().GetFieldPropertyUnions(ReflectionHelper.AllFlags).Any(x => x.GetValue(plan) == null)) throw new NullReferenceException();
                     C.EntrustPlans.Add(plan);
                     SelectedGuid = plan.Guid;
-                    Notify.Success("Imported plan from clipboard");
+                    Notify.Success("Imported plan from clipboard".Loc());
                     EzThrottler.Throttle("ImportPlan", 2000, true);
                 }
                 catch(Exception e)
@@ -78,26 +78,26 @@ public class EntrustManager : InventoryManagementBase
         if(selectedPlan != null)
         {
             ImGuiEx.SetNextItemFullWidth();
-            ImGui.InputTextWithHint($"##name", "Plan name", ref selectedPlan.Name, 100);
-            ImGui.Checkbox("Entrust Duplicates", ref selectedPlan.Duplicates);
-            ImGuiEx.HelpMarker("Mimics vanilla entrust duplicates option: entrusts any items that already present in retainer's inventory up until your retainer fills up it's stack of items. Does not affects crystals. Items and categories that are explicitly added into the list below will be excluded from being processed by this option.");
+            ImGui.InputTextWithHint($"##name", "Plan name".Loc(), ref selectedPlan.Name, 100);
+            ImGui.Checkbox("Entrust Duplicates".Loc(), ref selectedPlan.Duplicates);
+            ImGuiEx.HelpMarker("Mimics vanilla entrust duplicates option: entrusts any items that already present in retainer's inventory up until your retainer fills up it's stack of items. Does not affects crystals. Items and categories that are explicitly added into the list below will be excluded from being processed by this option.".Loc());
             ImGui.Indent();
-            ImGui.Checkbox("Allow going over stack", ref selectedPlan.DuplicatesMultiStack);
-            ImGuiEx.HelpMarker("Allows entrust duplicates to create new stacks of items that already exist in the selected retainer.");
+            ImGui.Checkbox("Allow going over stack".Loc(), ref selectedPlan.DuplicatesMultiStack);
+            ImGuiEx.HelpMarker("Allows entrust duplicates to create new stacks of items that already exist in the selected retainer.".Loc());
             ImGui.Unindent();
-            ImGui.Checkbox("Allow entrusting from Armory Chest", ref selectedPlan.AllowEntrustFromArmory);
-            ImGui.Checkbox("Manual execution only", ref selectedPlan.ManualPlan);
-            ImGuiEx.HelpMarker("Mark this plan for manual execution only. This plan will only be processed upon manual \"Entrust Items\" button click and never automatically.");
-            ImGui.Checkbox("Exclude items present in protection list", ref selectedPlan.ExcludeProtected);
+            ImGui.Checkbox("Allow entrusting from Armory Chest".Loc(), ref selectedPlan.AllowEntrustFromArmory);
+            ImGui.Checkbox("Manual execution only".Loc(), ref selectedPlan.ManualPlan);
+            ImGuiEx.HelpMarker("Mark this plan for manual execution only. This plan will only be processed upon manual \"Entrust Items\" button click and never automatically.".Loc());
+            ImGui.Checkbox("Exclude items present in protection list".Loc(), ref selectedPlan.ExcludeProtected);
             ImGui.Separator();
-            ImGuiEx.TreeNodeCollapsingHeader($"Entrust categories ({selectedPlan.EntrustCategories.Count} selected)###ecats", () =>
+            ImGuiEx.TreeNodeCollapsingHeader("Entrust categories (?? selected)".Loc(selectedPlan.EntrustCategories.Count) + "###ecats", () =>
             {
-                ImGuiEx.TextWrapped($"Here you can select item categories that will be entrusted as a whole. Individual items that are selected below will be excluded from these rules.");
+                ImGuiEx.TextWrapped("Here you can select item categories that will be entrusted as a whole. Individual items that are selected below will be excluded from these rules.".Loc());
                 if(ImGui.BeginTable("EntrustTable", 3, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.NoSavedSettings | ImGuiTableFlags.BordersInner))
                 {
                     ImGui.TableSetupColumn("##1");
-                    ImGui.TableSetupColumn("Item name", ImGuiTableColumnFlags.WidthStretch);
-                    ImGui.TableSetupColumn("Amount to keep");
+                    ImGui.TableSetupColumn("Item name".Loc(), ImGuiTableColumnFlags.WidthStretch);
+                    ImGui.TableSetupColumn("Amount to keep".Loc());
                     ImGui.TableHeadersRow();
                     foreach(var x in Svc.Data.GetExcelSheet<ItemUICategory>())
                     {
@@ -131,7 +131,7 @@ public class EntrustManager : InventoryManagementBase
                     ImGui.EndTable();
                 }
             });
-            ImGuiEx.TreeNodeCollapsingHeader($"Entrust individual items ({selectedPlan.EntrustItems.Count} selected)###eitems", () =>
+            ImGuiEx.TreeNodeCollapsingHeader("Entrust individual items (?? selected)".Loc(selectedPlan.EntrustItems.Count) + "###eitems", () =>
             {
                 InventoryManagementCommon.DrawListNew(
                     itemId => selectedPlan.EntrustItems.Add(itemId), 
@@ -145,14 +145,14 @@ public class EntrustManager : InventoryManagementBase
                     {
                         selectedPlan.EntrustItemsAmountToKeep[x] = amount;
                     }
-                    ImGuiEx.Tooltip("Amount to keep in your inventory");
+                    ImGuiEx.Tooltip("Amount to keep in your inventory".Loc());
                 });
             });
-            ImGuiEx.TreeNodeCollapsingHeader($"Fast addition/removal", () =>
+            ImGuiEx.TreeNodeCollapsingHeader("Fast addition/removal".Loc(), () =>
             {
-                ImGuiEx.TextWrapped(GradientColor.Get(EColor.RedBright, EColor.YellowBright), $"While this text is visible, hover over items while holding:");
-                ImGuiEx.Text(!ImGui.GetIO().KeyShift ? ImGuiColors.DalamudGrey : ImGuiColors.DalamudRed, $"Shift - add to entrust plan");
-                ImGuiEx.Text(!ImGui.GetIO().KeyAlt ? ImGuiColors.DalamudGrey : ImGuiColors.DalamudRed, $"Alt - delete from entrust plan");
+                ImGuiEx.TextWrapped(GradientColor.Get(EColor.RedBright, EColor.YellowBright), "While this text is visible, hover over items while holding:".Loc());
+                ImGuiEx.Text(!ImGui.GetIO().KeyShift ? ImGuiColors.DalamudGrey : ImGuiColors.DalamudRed, "Shift - add to entrust plan".Loc());
+                ImGuiEx.Text(!ImGui.GetIO().KeyAlt ? ImGuiColors.DalamudGrey : ImGuiColors.DalamudRed, "Alt - delete from entrust plan".Loc());
                 if(Svc.GameGui.HoveredItem > 0)
                 {
                     var id = (uint)(Svc.GameGui.HoveredItem % 1000000);
@@ -161,7 +161,7 @@ public class EntrustManager : InventoryManagementBase
                         if(!selectedPlan.EntrustItems.Contains(id))
                         {
                             selectedPlan.EntrustItems.Add(id);
-                            Notify.Success($"Added {ExcelItemHelper.GetName(id)} to entrust plan {selectedPlan.Name}");
+                            Notify.Success("Added ?? to entrust plan ??".Loc(ExcelItemHelper.GetName(id), selectedPlan.Name));
                         }
                     }
                     if(ImGui.GetIO().KeyAlt)
@@ -169,7 +169,7 @@ public class EntrustManager : InventoryManagementBase
                         if(selectedPlan.EntrustItems.Contains(id))
                         {
                             selectedPlan.EntrustItems.Remove(id);
-                            Notify.Success($"Removed {ExcelItemHelper.GetName(id)} from entrust plan {selectedPlan.Name}");
+                            Notify.Success("Removed ?? from entrust plan ??".Loc(ExcelItemHelper.GetName(id), selectedPlan.Name));
                         }
                     }
                 }

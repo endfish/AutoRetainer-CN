@@ -8,8 +8,8 @@ public class SoftList : InventoryManagementBase
     private SoftList()
     {
         Builder = InventoryCleanupCommon.CreateCleanupHeaderBuilder()
-            .Section(Name)
-            .TextWrapped("These items, when obtained from Quick Venture will be sold unless they have stacked with the same item.")
+            .Section(Name.Loc())
+            .TextWrapped("These items, when obtained from Quick Venture will be sold unless they have stacked with the same item.".Loc())
             .Widget(() => InventoryManagementCommon.DrawListNew(
                 itemId => InventoryCleanupCommon.SelectedPlan.AddItemToList(IMListKind.SoftSell, itemId, out _),
                 itemId => InventoryCleanupCommon.SelectedPlan.IMAutoVendorSoft.Remove(itemId), InventoryCleanupCommon.SelectedPlan.IMAutoVendorSoft,

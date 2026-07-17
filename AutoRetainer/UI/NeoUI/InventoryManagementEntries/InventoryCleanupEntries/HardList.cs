@@ -9,9 +9,9 @@ public class HardList : InventoryManagementBase
     private HardList()
     {
         Builder = InventoryCleanupCommon.CreateCleanupHeaderBuilder()
-            .Section(Name)
-            .TextWrapped("These items will always be sold, regardless of their source, as long as their stack count does not exceeds specified amount that you can specify below. Additionally, only these items will ever be sold to an NPC.")
-            .InputInt(150f, $"Maximum stack size to be sold", () => ref InventoryCleanupCommon.SelectedPlan.IMAutoVendorHardStackLimit)
+            .Section(Name.Loc())
+            .TextWrapped("These items will always be sold, regardless of their source, as long as their stack count does not exceeds specified amount that you can specify below. Additionally, only these items will ever be sold to an NPC.".Loc())
+            .InputInt(150f, "Maximum stack size to be sold".Loc(), () => ref InventoryCleanupCommon.SelectedPlan.IMAutoVendorHardStackLimit)
             .Widget(() => InventoryManagementCommon.DrawListNew(
                 itemId => InventoryCleanupCommon.SelectedPlan.AddItemToList(IMListKind.HardSell, itemId, out _),
                 itemId => InventoryCleanupCommon.SelectedPlan.IMAutoVendorHard.Remove(itemId),
@@ -22,7 +22,7 @@ public class HardList : InventoryManagementBase
                     ImGui.PushFont(UiBuilder.IconFont);
                     ImGuiEx.CollectionButtonCheckbox(FontAwesomeIcon.Database.ToIconString(), x, InventoryCleanupCommon.SelectedPlan.IMAutoVendorHardIgnoreStack);
                     ImGui.PopFont();
-                    ImGuiEx.Tooltip($"Ignore stack setting for this item");
+                    ImGuiEx.Tooltip("Ignore stack setting for this item".Loc());
                 },
                 filter: item => item.PriceLow != 0))
             .Separator()

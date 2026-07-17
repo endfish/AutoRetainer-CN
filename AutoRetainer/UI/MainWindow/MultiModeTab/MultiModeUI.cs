@@ -56,14 +56,14 @@ internal static unsafe class MultiModeUI
                 data.Enabled = !data.Enabled;
             }
             if(colen) ImGui.PopStyleColor();
-            ImGuiEx.Tooltip($"Enable multi mode for this character");
+            ImGuiEx.Tooltip("Enable multi mode for this character".Loc());
             ImGuiEx.DragDropRepopulate("EnMulti", data.Enabled, ref data.Enabled);
             ImGui.SameLine(0, 3);
             if(ImGuiEx.IconButton(FontAwesomeIcon.DoorOpen))
             {
                 if(MultiMode.Relog(data, out var error, RelogReason.ConfigGUI))
                 {
-                    Notify.Success("Relogging...");
+                    Notify.Success("Relogging...".Loc());
                 }
                 else
                 {
@@ -74,7 +74,7 @@ internal static unsafe class MultiModeUI
             {
                 Copy($"/ays relog {data.Name}@{data.World}");
             }
-            ImGuiEx.Tooltip($"Left click - relog to this character\nRight click - copy relog command into clipboard");
+            ImGuiEx.Tooltip("Left click - relog to this character\nRight click - copy relog command into clipboard".Loc());
             ImGui.SameLine(0, 3);
             if(ImGuiEx.IconButton(FontAwesomeIcon.UserCog))
             {
@@ -84,7 +84,7 @@ internal static unsafe class MultiModeUI
             {
                 Copy($"{data.Name}@{data.World}");
             }
-            ImGuiEx.Tooltip($"Configure Character");
+            ImGuiEx.Tooltip("Configure Character".Loc());
             ImGui.SameLine(0, 3);
 
             if(ImGui.BeginPopup($"popup{data.CID}"))

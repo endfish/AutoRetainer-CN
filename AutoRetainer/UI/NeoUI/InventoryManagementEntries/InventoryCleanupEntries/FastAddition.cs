@@ -12,21 +12,21 @@ public unsafe class FastAddition : InventoryManagementBase
     private FastAddition()
     {
         Builder = InventoryCleanupCommon.CreateCleanupHeaderBuilder()
-        .Section(Name)
+        .Section(Name.Loc())
         .Widget(() =>
         {
             var selectedSettings = InventoryCleanupCommon.SelectedPlan;
-            ImGuiEx.TextWrapped(GradientColor.Get(EColor.RedBright, EColor.YellowBright), $"While this text is visible, hover over items while holding:");
-            ImGuiEx.Text(!ImGui.GetIO().KeyShift ? ImGuiColors.DalamudGrey : ImGuiColors.DalamudRed, $"Shift - add to Quick Venture Sell List");
-            ImGuiEx.Text($"* Items that already in Unconditional Sell List or Discard List WILL NOT BE ADDED to Quick Venture Sell List");
-            ImGuiEx.Text(!ImGui.GetIO().KeyCtrl ? ImGuiColors.DalamudGrey : ImGuiColors.DalamudRed, $"Ctrl - add to Unconditional Sell List");
-            ImGuiEx.Text($"* Items that already in other lists WILL BE MOVED to Unconditional Sell List");
-            ImGuiEx.Text(!IsKeyPressed(Keys.Tab) ? ImGuiColors.DalamudGrey : ImGuiColors.DalamudRed, $"Tab - add to Discard List");
-            ImGuiEx.Text($"* Items that already in other lists WILL BE MOVED to Discard List");
+        ImGuiEx.TextWrapped(GradientColor.Get(EColor.RedBright, EColor.YellowBright), "While this text is visible, hover over items while holding:".Loc());
+        ImGuiEx.Text(!ImGui.GetIO().KeyShift ? ImGuiColors.DalamudGrey : ImGuiColors.DalamudRed, "Shift - add to Quick Venture Sell List".Loc());
+        ImGuiEx.Text("* Items that already in Unconditional Sell List or Discard List WILL NOT BE ADDED to Quick Venture Sell List".Loc());
+        ImGuiEx.Text(!ImGui.GetIO().KeyCtrl ? ImGuiColors.DalamudGrey : ImGuiColors.DalamudRed, "Ctrl - add to Unconditional Sell List".Loc());
+        ImGuiEx.Text("* Items that already in other lists WILL BE MOVED to Unconditional Sell List".Loc());
+        ImGuiEx.Text(!IsKeyPressed(Keys.Tab) ? ImGuiColors.DalamudGrey : ImGuiColors.DalamudRed, "Tab - add to Discard List".Loc());
+        ImGuiEx.Text("* Items that already in other lists WILL BE MOVED to Discard List".Loc());
             //ImGuiEx.Text(IsKeyPressed(Keys.Space) ? ImGuiColors.DalamudGrey : ImGuiColors.DalamudRed, $"Space - add to Desynthesis List");
             //ImGuiEx.Text($"* Items that already in other lists WILL BE MOVED to Desynthesis List");
-            ImGuiEx.Text(!ImGui.GetIO().KeyAlt ? ImGuiColors.DalamudGrey : ImGuiColors.DalamudRed, $"Alt - delete from any list");
-            ImGuiEx.Text("\nItems that are protected are unaffected by these actions");
+        ImGuiEx.Text(!ImGui.GetIO().KeyAlt ? ImGuiColors.DalamudGrey : ImGuiColors.DalamudRed, "Alt - delete from any list".Loc());
+        ImGuiEx.Text("\nItems that are protected are unaffected by these actions".Loc());
             if(Svc.GameGui.HoveredItem > 0)
             {
                 var id = (uint)(Svc.GameGui.HoveredItem % 1000000);
@@ -41,7 +41,7 @@ public unsafe class FastAddition : InventoryManagementBase
                     {
                         if(selectedSettings.AddItemToList(IMListKind.SoftSell, id, out var error))
                         {
-                            Notify.Success($"Added {ExcelItemHelper.GetName(id)} to Quick Venture Sell List");
+                    Notify.Success("Added ?? to Quick Venture Sell List".Loc(ExcelItemHelper.GetName(id)));
                         }
                         else
                         {
@@ -55,7 +55,7 @@ public unsafe class FastAddition : InventoryManagementBase
                     {
                         if(selectedSettings.AddItemToList(IMListKind.HardSell, id, out var error))
                         {
-                            Notify.Success($"Added {ExcelItemHelper.GetName(id)} to Unconditional Sell List");
+                    Notify.Success("Added ?? to Unconditional Sell List".Loc(ExcelItemHelper.GetName(id)));
                         }
                         else
                         {
@@ -69,7 +69,7 @@ public unsafe class FastAddition : InventoryManagementBase
                     {
                         if(selectedSettings.AddItemToList(IMListKind.Discard, id, out var error))
                         {
-                            Notify.Success($"Added {ExcelItemHelper.GetName(id)} to Discard List");
+                    Notify.Success("Added ?? to Discard List".Loc(ExcelItemHelper.GetName(id)));
                         }
                         else
                         {
@@ -83,7 +83,7 @@ public unsafe class FastAddition : InventoryManagementBase
                     {
                         if(selectedSettings.AddItemToList(IMListKind.Desynth, id, out var error))
                         {
-                            Notify.Success($"Added {ExcelItemHelper.GetName(id)} to Desynthesis List");
+                    Notify.Success("Added ?? to Desynthesis List".Loc(ExcelItemHelper.GetName(id)));
                         }
                         else
                         {
@@ -93,10 +93,10 @@ public unsafe class FastAddition : InventoryManagementBase
                 }*/
                 if(ImGui.GetIO().KeyAlt)
                 {
-                    if(selectedSettings.IMAutoVendorSoft.Remove(id)) Notify.Info($"Removed {ExcelItemHelper.GetName(id)} from Quick Venture Sell List");
-                    if(selectedSettings.IMAutoVendorHard.Remove(id)) Notify.Info($"Removed {ExcelItemHelper.GetName(id)} from Unconditional Sell List");
-                    if(selectedSettings.IMDiscardList.Remove(id)) Notify.Info($"Removed {ExcelItemHelper.GetName(id)} from Discard List");
-                    if(selectedSettings.IMDesynth.Remove(id)) Notify.Info($"Removed {ExcelItemHelper.GetName(id)} from Desynthesis List");
+                if(selectedSettings.IMAutoVendorSoft.Remove(id)) Notify.Info("Removed ?? from Quick Venture Sell List".Loc(ExcelItemHelper.GetName(id)));
+                if(selectedSettings.IMAutoVendorHard.Remove(id)) Notify.Info("Removed ?? from Unconditional Sell List".Loc(ExcelItemHelper.GetName(id)));
+                if(selectedSettings.IMDiscardList.Remove(id)) Notify.Info("Removed ?? from Discard List".Loc(ExcelItemHelper.GetName(id)));
+                if(selectedSettings.IMDesynth.Remove(id)) Notify.Info("Removed ?? from Desynthesis List".Loc(ExcelItemHelper.GetName(id)));
                 }
             }
         });

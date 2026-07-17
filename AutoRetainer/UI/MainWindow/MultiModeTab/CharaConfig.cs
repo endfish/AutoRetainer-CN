@@ -11,7 +11,7 @@ public class CharaConfig
         SharedUI.DrawMultiModeHeader(data);
         var b = new NuiBuilder()
 
-        .Section("General Character Specific Settings")
+        .Section("General Character Specific Settings".Loc())
         .Widget(() =>
         {
             SharedUI.DrawServiceAccSelector(data);
@@ -19,9 +19,9 @@ public class CharaConfig
         });
         if(isRetainer)
         {
-            b = b.Section("Retainers").Widget(() =>
+            b = b.Section("Retainers".Loc()).Widget(() =>
             {
-                ImGuiEx.Text($"Automatic Grand Company Expert Delivery:");
+                ImGuiEx.Text("Automatic Grand Company Expert Delivery:".Loc());
                 if(!AutoGCHandin.Operation)
                 {
                     ImGuiEx.SetNextItemWidthScaled(200f);
@@ -29,35 +29,35 @@ public class CharaConfig
                 }
                 else
                 {
-                    ImGuiEx.Text($"Can't change this now");
+                    ImGuiEx.Text("Can't change this now".Loc());
                 }
             });
         }
         else
         {
-            b = b.Section("Deployables").Widget(() =>
+            b = b.Section("Deployables".Loc()).Widget(() =>
             {
-                ImGui.Checkbox($"Wait For Voyage Completion", ref data.MultiWaitForAllDeployables);
-                ImGuiComponents.HelpMarker("""This setting works like the global option but applies to individual characters. When enabled, AutoRetainer will wait for all deployables to return before logging into the character. If you're already logged in for another reason, it will still resend completed submarines—unless the global setting "Wait even when already logged in" is also turned on.""");
+                ImGui.Checkbox("Wait For Voyage Completion".Loc(), ref data.MultiWaitForAllDeployables);
+                ImGuiComponents.HelpMarker("This setting works like the global option but applies to individual characters. When enabled, AutoRetainer will wait for all deployables to return before logging into the character. If you're already logged in for another reason, it will still resend completed submarines—unless the global setting \"Wait even when already logged in\" is also turned on.".Loc());
             });
         }
-        b = b.Section("Teleport overrides", data.GetAreTeleportSettingsOverriden() ? ImGui.GetStyle().Colors[(int)ImGuiCol.FrameBg] with { X = 1f } : null, true)
+        b = b.Section("Teleport overrides".Loc(), data.GetAreTeleportSettingsOverriden() ? ImGui.GetStyle().Colors[(int)ImGuiCol.FrameBg] with { X = 1f } : null, true)
         .Widget(() =>
         {
-            ImGuiEx.Text($"You can override teleport settings per character.");
+            ImGuiEx.Text("You can override teleport settings per character.".Loc());
             bool? demo = null;
-            ImGuiEx.Checkbox("Options marked with this marker will use values from global configuration", ref demo);
-            ImGuiEx.Checkbox("Enabled", ref data.TeleportOptionsOverride.Enabled);
+            ImGuiEx.Checkbox("Options marked with this marker will use values from global configuration".Loc(), ref demo);
+            ImGuiEx.Checkbox("Enabled".Loc(), ref data.TeleportOptionsOverride.Enabled);
             ImGui.Indent();
-            ImGuiEx.Checkbox("Teleport for retainers...", ref data.TeleportOptionsOverride.Retainers);
+            ImGuiEx.Checkbox("Teleport for retainers...".Loc(), ref data.TeleportOptionsOverride.Retainers);
             ImGui.Indent();
-            ImGuiEx.Checkbox("...to private house", ref data.TeleportOptionsOverride.RetainersPrivate);
-            ImGuiEx.Checkbox("...to shared house", ref data.TeleportOptionsOverride.RetainersShared);
-            ImGuiEx.Checkbox("...to free company house", ref data.TeleportOptionsOverride.RetainersFC);
-            ImGuiEx.Checkbox("...to apartment", ref data.TeleportOptionsOverride.RetainersApartment);
-            ImGui.Text("If all above are disabled or fail, will be teleported to inn.");
+            ImGuiEx.Checkbox("...to private house".Loc(), ref data.TeleportOptionsOverride.RetainersPrivate);
+            ImGuiEx.Checkbox("...to shared house".Loc(), ref data.TeleportOptionsOverride.RetainersShared);
+            ImGuiEx.Checkbox("...to free company house".Loc(), ref data.TeleportOptionsOverride.RetainersFC);
+            ImGuiEx.Checkbox("...to apartment".Loc(), ref data.TeleportOptionsOverride.RetainersApartment);
+            ImGui.Text("If all above are disabled or fail, will be teleported to inn.".Loc());
             ImGui.Unindent();
-            ImGuiEx.Checkbox("Teleport to free company house for deployables", ref data.TeleportOptionsOverride.Deployables);
+            ImGuiEx.Checkbox("Teleport to free company house for deployables".Loc(), ref data.TeleportOptionsOverride.Deployables);
             ImGui.Unindent(); 
         }).Draw();
         SharedUI.DrawExcludeReset(data);

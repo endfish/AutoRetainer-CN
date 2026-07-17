@@ -22,22 +22,22 @@ public static unsafe class TaskDeliverItems
         var gcInfo = GCContinuation.GetFullGCInfo();
         if(gcInfo == null)
         {
-            Notify.Error("Not employed by a Grand Company");
+            Notify.Error("Not employed by a Grand Company".Loc());
             return false;
         }
         if(Data.GCDeliveryType == AutoRetainerAPI.Configuration.GCDeliveryType.Disabled)
         {
-            Notify.Error("Can not enqueue GC delivery as it is disabled for current character");
+            Notify.Error("Can not enqueue GC delivery as it is disabled for current character".Loc());
             return false;
         }
         if(Lifestream.IsBusy())
         {
-            Notify.Error("Lifestream is busy");
+            Notify.Error("Lifestream is busy".Loc());
             return false;
         }
         if(!force && Utils.IsBusy)
         {
-            Notify.Error("AutoRetainer is busy");
+            Notify.Error("AutoRetainer is busy".Loc());
             return false;
         }
         P.TaskManager.Enqueue(() =>

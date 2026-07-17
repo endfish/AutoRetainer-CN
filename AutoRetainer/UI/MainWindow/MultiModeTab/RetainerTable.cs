@@ -11,9 +11,9 @@ public static unsafe class RetainerTable
     {
         if(ImGui.BeginTable("##retainertable", 4, ImGuiTableFlags.SizingFixedFit | ImGuiTableFlags.Borders))
         {
-            ImGui.TableSetupColumn("Name", ImGuiTableColumnFlags.WidthStretch);
-            ImGui.TableSetupColumn("Job");
-            ImGui.TableSetupColumn("Venture");
+            ImGui.TableSetupColumn("Name".Loc(), ImGuiTableColumnFlags.WidthStretch);
+            ImGui.TableSetupColumn("Job".Loc());
+            ImGui.TableSetupColumn("Venture".Loc());
             ImGui.TableSetupColumn("");
             ImGui.TableHeadersRow();
             var retainers = P.GetSelectedRetainers(data.CID);
@@ -46,7 +46,7 @@ public static unsafe class RetainerTable
                         if(!C.EnableEntrustManager) c = ImGuiColors.DalamudRed;
                         ImGuiEx.Text(c, Lang.IconDuplicate);
                         ImGui.PopFont();
-                        ImGuiEx.Tooltip($"Entrust plan \"{plan.Name}\" is active." + (plan.ManualPlan ? "\nThis is manual processing plan" : "") + (Utils.GetReachableRetainerBell(false) != null ? "\nClick to Entrust." : ""));
+                        ImGuiEx.Tooltip("Entrust plan \"??\" is active.".Loc(plan.Name) + (plan.ManualPlan ? "\n" + "This is manual processing plan".Loc() : "") + (Utils.GetReachableRetainerBell(false) != null ? "\n" + "Click to Entrust.".Loc() : ""));
                         if(ImGui.IsItemClicked())
                         {
                             if(!Svc.Condition[Dalamud.Game.ClientState.Conditions.ConditionFlag.OccupiedSummoningBell])
@@ -138,7 +138,7 @@ public static unsafe class RetainerTable
                         ImGui.SameLine();
                     }
                 }
-                ImGuiEx.Text($"{(!ret.HasVenture ? "No Venture" : Utils.ToTimeString(ret.GetVentureSecondsRemaining(C.TimerAllowNegative)))}");
+                ImGuiEx.Text($"{(!ret.HasVenture ? "No Venture".Loc() : Utils.ToTimeString(ret.GetVentureSecondsRemaining(C.TimerAllowNegative)))}");
                 ImGui.TableNextColumn();
                 ImGui.TableSetBgColor(ImGuiTableBgTarget.CellBg, 0);
                 var n = $"{data.CID} {ret.Name} settings";

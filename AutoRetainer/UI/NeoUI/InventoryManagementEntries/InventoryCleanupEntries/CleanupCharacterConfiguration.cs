@@ -13,10 +13,10 @@ public sealed unsafe class CleanupCharacterConfiguration : InventoryManagementBa
 
     public override void Draw()
     {
-        ImGuiEx.TextWrapped($"Here you can assign preconfigured inventory cleanup lists to your registered characters.");
+        ImGuiEx.TextWrapped("Here you can assign preconfigured inventory cleanup lists to your registered characters.".Loc());
         ImGuiEx.SetNextItemFullWidth();
-        ImGuiEx.FilteringInputTextWithHint("##search", "Search...", out var filter);
-        if(ImGuiEx.BeginDefaultTable(["~Character", "Plan"]))
+        ImGuiEx.FilteringInputTextWithHint("##search", "Search...".Loc(), out var filter);
+        if(ImGuiEx.BeginDefaultTable(["~" + "Character".Loc(), "Plan".Loc()]))
         {
             foreach(var characterData in C.OfflineData)
             {
@@ -28,9 +28,9 @@ public sealed unsafe class CleanupCharacterConfiguration : InventoryManagementBa
                 ImGui.TableNextColumn();
                 var plan = characterData.InventoryCleanupPlan == Guid.Empty ? null : C.AdditionalIMSettings.FirstOrDefault(p => p.GUID == characterData.InventoryCleanupPlan);
                 ImGui.SetNextItemWidth(200f);
-                if(ImGui.BeginCombo("##chPlan", plan?.DisplayName ?? "Default Plan", ImGuiComboFlags.HeightLarge))
+                if(ImGui.BeginCombo("##chPlan", plan?.DisplayName ?? "Default Plan".Loc(), ImGuiComboFlags.HeightLarge))
                 {
-                    if(ImGui.Selectable("Default Plan", plan == null)) characterData.InventoryCleanupPlan = Guid.Empty;
+                    if(ImGui.Selectable("Default Plan".Loc() + "###Default Plan", plan == null)) characterData.InventoryCleanupPlan = Guid.Empty;
                     ImGui.Separator();
                     foreach(var cleanupPlan in C.AdditionalIMSettings)
                     {

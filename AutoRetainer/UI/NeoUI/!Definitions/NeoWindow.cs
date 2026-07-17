@@ -9,7 +9,9 @@ using NightmareUI.OtterGuiWrapper.FileSystems.Configuration;
 namespace AutoRetainer.UI.NeoUI;
 public sealed class NeoWindow : Window
 {
-    private readonly NeoUIEntry[] Tabs =
+    private NeoUIEntry[] Tabs;
+
+    private static NeoUIEntry[] CreateTabs() =>
     [
         new MainSettings(),
         new UserInterface(),
@@ -48,11 +50,13 @@ public sealed class NeoWindow : Window
     {
         P.WindowSystem.AddWindow(this);
         this.SetMinSize();
+        Tabs = CreateTabs();
         FileSystem = new(() => Tabs);
     }
 
     public void Reload()
     {
+        Tabs = CreateTabs();
         FileSystem.Reload();
     }
 

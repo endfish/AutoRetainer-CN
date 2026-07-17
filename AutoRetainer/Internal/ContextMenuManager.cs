@@ -33,19 +33,19 @@ internal unsafe class ContextMenuManager
                 {
                     args.AddMenuItem(new MenuItem()
                     {
-                        Name = new SeStringBuilder().Append(Prefix).AddText("= Item has been protected =").Build(),
+                        Name = new SeStringBuilder().Append(Prefix).AddText("Item has been protected".Loc()).Build(),
                         OnClicked = (a) =>
                         {
                             if(IsKeyPressed([LimitedKeys.LeftControlKey, LimitedKeys.RightControlKey]) && IsKeyPressed([LimitedKeys.RightShiftKey, LimitedKeys.LeftShiftKey]))
                             {
-                                var t = $"Item {ExcelItemHelper.GetName(id)} removed from protection list";
+                                var t = "Item ?? removed from protection list".Loc(ExcelItemHelper.GetName(id));
                                 Notify.Success(t);
                                 ChatPrinter.Red("[AutoRetainer] " + t);
                                 Data.GetIMSettings(true).IMProtectList.Remove(id);
                             }
                             else
                             {
-                                Notify.Error($"Hold both CTRL+SHIFT while clicking to remove protection from item");
+                                Notify.Error("Hold both CTRL+SHIFT while clicking to remove protection from item".Loc());
                             }
                         }
                     }.RemovePrefix());
@@ -57,11 +57,11 @@ internal unsafe class ContextMenuManager
                     {
                         args.AddMenuItem(new MenuItem()
                         {
-                            Name = new SeStringBuilder().Append(Prefix).AddUiForeground("- Remove from Quick Venture sell list", (ushort)UIColor.Orange).Build(),
+                            Name = new SeStringBuilder().Append(Prefix).AddUiForeground("- Remove from Quick Venture sell list".Loc(), (ushort)UIColor.Orange).Build(),
                             OnClicked = (a) =>
                             {
                                 Data.GetIMSettings(true).IMAutoVendorSoft.Remove(id);
-                                Notify.Info($"Item {ExcelItemHelper.GetName(id)} removed from Quick Venture sell list");
+                                Notify.Info("Item ?? removed from Quick Venture sell list".Loc(ExcelItemHelper.GetName(id)));
                             }
                         }.RemovePrefix());
                     }
@@ -69,12 +69,12 @@ internal unsafe class ContextMenuManager
                     {
                         args.AddMenuItem(new MenuItem()
                         {
-                            Name = new SeStringBuilder().Append(Prefix).AddUiForeground("+ Add to Quick Venture sell list", (ushort)UIColor.Yellow).Build(),
+                            Name = new SeStringBuilder().Append(Prefix).AddUiForeground("+ Add to Quick Venture sell list".Loc(), (ushort)UIColor.Yellow).Build(),
                             OnClicked = (a) =>
                             {
                                 if(Data.GetIMSettings(true).AddItemToList(IMListKind.SoftSell, id, out var error))
                                 {
-                                    Notify.Success($"Item {ExcelItemHelper.GetName(id)} added to Quick Venture sell list");
+                                    Notify.Success("Item ?? added to Quick Venture sell list".Loc(ExcelItemHelper.GetName(id)));
                                 }
                                 else
                                 {
@@ -88,11 +88,11 @@ internal unsafe class ContextMenuManager
                     {
                         args.AddMenuItem(new MenuItem()
                         {
-                            Name = new SeStringBuilder().Append(Prefix).AddUiForeground("- Remove from Unconditional sell list", (ushort)UIColor.Orange).Build(),
+                            Name = new SeStringBuilder().Append(Prefix).AddUiForeground("- Remove from Unconditional sell list".Loc(), (ushort)UIColor.Orange).Build(),
                             OnClicked = (a) =>
                             {
                                 Data.GetIMSettings(true).IMAutoVendorHard.Remove(id);
-                                Notify.Success($"Item {ExcelItemHelper.GetName(id)} removed from Unconditional sell list");
+                                Notify.Success("Item ?? removed from Unconditional sell list".Loc(ExcelItemHelper.GetName(id)));
                             }
                         }.RemovePrefix());
                     }
@@ -100,12 +100,12 @@ internal unsafe class ContextMenuManager
                     {
                         args.AddMenuItem(new MenuItem()
                         {
-                            Name = new SeStringBuilder().Append(Prefix).AddUiForeground("+ Add to Unconditional sell list", (ushort)UIColor.Yellow).Build(),
+                            Name = new SeStringBuilder().Append(Prefix).AddUiForeground("+ Add to Unconditional sell list".Loc(), (ushort)UIColor.Yellow).Build(),
                             OnClicked = (a) =>
                             {
                                 if(Data.GetIMSettings(true).AddItemToList(IMListKind.HardSell, id, out var error))
                                 {
-                                    Notify.Success($"Item {ExcelItemHelper.GetName(id)} added to Unconditional sell list");
+                                    Notify.Success("Item ?? added to Unconditional sell list".Loc(ExcelItemHelper.GetName(id)));
                                 }
                                 else
                                 {
@@ -119,11 +119,11 @@ internal unsafe class ContextMenuManager
                     {
                         args.AddMenuItem(new MenuItem()
                         {
-                            Name = new SeStringBuilder().Append(Prefix).AddUiForeground("- Remove from Discard list", (ushort)UIColor.Orange).Build(),
+                            Name = new SeStringBuilder().Append(Prefix).AddUiForeground("- Remove from Discard list".Loc(), (ushort)UIColor.Orange).Build(),
                             OnClicked = (a) =>
                             {
                                 Data.GetIMSettings(true).IMDiscardList.Remove(id);
-                                Notify.Success($"Item {ExcelItemHelper.GetName(id)} removed from Discard list");
+                                Notify.Success("Item ?? removed from Discard list".Loc(ExcelItemHelper.GetName(id)));
                             }
                         }.RemovePrefix());
                     }
@@ -131,12 +131,12 @@ internal unsafe class ContextMenuManager
                     {
                         args.AddMenuItem(new MenuItem()
                         {
-                            Name = new SeStringBuilder().Append(Prefix).AddUiForeground("+ Add to Discard list", (ushort)UIColor.Yellow).Build(),
+                            Name = new SeStringBuilder().Append(Prefix).AddUiForeground("+ Add to Discard list".Loc(), (ushort)UIColor.Yellow).Build(),
                             OnClicked = (a) =>
                             {
                                 if(Data.GetIMSettings(true).AddItemToList(IMListKind.Discard, id, out var error))
                                 {
-                                    Notify.Success($"Item {ExcelItemHelper.GetName(id)} added to Discard list");
+                                    Notify.Success("Item ?? added to Discard list".Loc(ExcelItemHelper.GetName(id)));
                                 }
                                 else
                                 {
@@ -148,12 +148,12 @@ internal unsafe class ContextMenuManager
 
                     args.AddMenuItem(new MenuItem()
                     {
-                        Name = new SeStringBuilder().Append(Prefix).AddText("Protect item from auto actions").Build(),
+                        Name = new SeStringBuilder().Append(Prefix).AddText("Protect item from auto actions".Loc()).Build(),
                         OnClicked = (a) =>
                         {
                             if(Data.GetIMSettings(true).AddItemToList(IMListKind.Protect, id, out var error))
                             {
-                                Notify.Success($"{ExcelItemHelper.GetName(id)} added to protection list");
+                                Notify.Success("?? added to protection list".Loc(ExcelItemHelper.GetName(id)));
                             }
                             else
                             {

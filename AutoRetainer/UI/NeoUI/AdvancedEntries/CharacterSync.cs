@@ -15,7 +15,7 @@ public unsafe sealed class CharacterSync : NeoUIEntry
     {
         if(ToDelete.Count > 0)
         {
-            if(ImGuiEx.BeginDefaultTable(["Name", "##control"]))
+            if(ImGuiEx.BeginDefaultTable(["Name".Loc(), "##control"]))
             {
                 foreach(var item in ToDelete)
                 {
@@ -26,7 +26,7 @@ public unsafe sealed class CharacterSync : NeoUIEntry
                         ImGui.TableNextColumn();
                         ImGuiEx.Text($"{ocd.NameWithWorld}");
                         ImGui.TableNextColumn();
-                        if(ImGui.SmallButton("Exclude from list"))
+                        if(ImGui.SmallButton("Exclude from list".Loc()))
                         {
                             new TickScheduler(() => ToDelete.Remove(item));
                         }
@@ -38,40 +38,37 @@ public unsafe sealed class CharacterSync : NeoUIEntry
                 }
                 ImGui.EndTable();
             }
-            if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Trash, "Delete listed characters from AutoRetainer", enabled: ImGuiEx.Ctrl))
+            if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Trash, "Delete listed characters from AutoRetainer".Loc(), enabled: ImGuiEx.Ctrl))
             {
                 C.OfflineData.RemoveAll(x => ToDelete.Contains(x.NameWithWorld));
             }
-            ImGuiEx.Tooltip("Hold CTRL and click");
-            if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Ban, "Cancel"))
+            ImGuiEx.Tooltip("Hold CTRL and click".Loc());
+            if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Ban, "Cancel".Loc()))
             {
                 ToDelete.Clear();
             }
             return;
         }
 
-        ImGuiEx.TextWrapped($"Prune deleted characters in a single click.");
+        ImGuiEx.TextWrapped("Prune deleted characters in a single click.".Loc());
         var jbInstalled = Svc.PluginInterface.InstalledPlugins.Any(x => x.InternalName == "JustBackup" && x.IsLoaded);
         if(!jbInstalled)
         {
-            ImGuiEx.TextWrapped(EColor.RedBright, "To continue, you need to install JustBackup plugin.");
-            if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.WindowMaximize, "Open Plugin Installer"))
+            ImGuiEx.TextWrapped(EColor.RedBright, "To continue, you need to install JustBackup plugin.".Loc());
+            if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.WindowMaximize, "Open Plugin Installer".Loc()))
             {
                 Svc.PluginInterface.OpenPluginInstallerTo(PluginInstallerOpenKind.AllPlugins, "JustBackup");
             }
             return;
         }
-        ImGuiEx.TextWrapped($"""
-            1. Create a backup by typing /justbackup, ensure it has succeeded and saved into a secure location.
-            2. Open your character list on FFXIV Lodestone.
-            """);
-        if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.ExternalLinkSquareAlt, "Open character list now"))
+        ImGuiEx.TextWrapped("1. Create a backup by typing /justbackup, ensure it has succeeded and saved into a secure location.\n2. Open your character list on FFXIV Lodestone.".Loc());
+        if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.ExternalLinkSquareAlt, "Open character list now".Loc()))
         {
             ShellStart("https://eu.finalfantasyxiv.com/lodestone/account/select_character/");
         }
-        ImGuiEx.TextWrapped($"3. Make sure you are logged with the correct account and copy entire page's content by pressing CTRL+A then CTRL+C");
-        ImGuiEx.TextWrapped($"4. Once finished, click the following button:");
-        if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Paste, "Prepare Character Cleanup"))
+        ImGuiEx.TextWrapped("3. Make sure you are logged with the correct account and copy entire page's content by pressing CTRL+A then CTRL+C".Loc());
+        ImGuiEx.TextWrapped("4. Once finished, click the following button:".Loc());
+        if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Paste, "Prepare Character Cleanup".Loc()))
         {
             Parse();
         }
@@ -111,7 +108,7 @@ public unsafe sealed class CharacterSync : NeoUIEntry
             }
             if(charas.Count == 0)
             {
-                Notify.Error("Did not read any characters");
+                Notify.Error("Did not read any characters".Loc());
             }
             else
             {
@@ -122,7 +119,7 @@ public unsafe sealed class CharacterSync : NeoUIEntry
         catch(Exception e)
         {
             e.Log();
-            Notify.Error("Could not parse character list");
+            Notify.Error("Could not parse character list".Loc());
         }
     }
 }

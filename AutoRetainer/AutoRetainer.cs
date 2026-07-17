@@ -164,23 +164,24 @@ public unsafe class AutoRetainer : IDalamudPlugin
         };
         Svc.ClientState.Logout += Logout;
         Svc.Condition.ConditionChange += ConditionChange;
-        EzCmd.Add("/autoretainer", CommandHandler, """
-            Open plugin interface
-            /ays - alias for /autoretainer
-            /autoretainer e|enable → Enable plugin
-            /autoretainer d|disable - Disable plugin
-            /autoretainer t|toggle - toggle plugin
-            /autoretainer m|multi - toggle MultiMode
-            /autoretainer relog Character Name@WorldName - relog to the targeted character if configured
-            /autoretainer b|browser - open venture browser
-            /autoretainer expert - toggle expert settings
-            /autoretainer debug - toggle debug menu and verbose output
-            /autoretainer shutdown <hours> [minutes] [seconds] - schedule a game shutdown in this amount of time
-            /autoretainer itemsell - begin selling items to NPC or retainer if possible
-            /autoretainer het - enter nearby own house or apartment if possible
-            /autoretainer reset - reset all pending tasks
-            /autoretainer deliver - deliver expert delivery items
-            """);
+        EzCmd.Add("/autoretainer", CommandHandler, string.Join("\n",
+        [
+            "Open plugin interface".Loc(),
+            "/ays - alias for /autoretainer".Loc(),
+            "/autoretainer e|enable → Enable plugin".Loc(),
+            "/autoretainer d|disable - Disable plugin".Loc(),
+            "/autoretainer t|toggle - toggle plugin".Loc(),
+            "/autoretainer m|multi - toggle MultiMode".Loc(),
+            "/autoretainer relog Character Name@WorldName - relog to the targeted character if configured".Loc(),
+            "/autoretainer b|browser - open venture browser".Loc(),
+            "/autoretainer expert - toggle expert settings".Loc(),
+            "/autoretainer debug - toggle debug menu and verbose output".Loc(),
+            "/autoretainer shutdown <hours> [minutes] [seconds] - schedule a game shutdown in this amount of time".Loc(),
+            "/autoretainer itemsell - begin selling items to NPC or retainer if possible".Loc(),
+            "/autoretainer het - enter nearby own house or apartment if possible".Loc(),
+            "/autoretainer reset - reset all pending tasks".Loc(),
+            "/autoretainer deliver - deliver expert delivery items".Loc(),
+        ]));
         EzCmd.Add("/ays", CommandHandler);
         Svc.Toasts.ErrorToast += Toasts_ErrorToast;
         Svc.Toasts.Toast += Toasts_Toast;
@@ -380,7 +381,7 @@ public unsafe class AutoRetainer : IDalamudPlugin
             }
             else
             {
-                Notify.Error($"Could not find target character");
+                Notify.Error("Could not find target character".Loc());
             }
         }
         else if(arguments.EqualsIgnoreCase("het"))
@@ -473,7 +474,7 @@ public unsafe class AutoRetainer : IDalamudPlugin
         {
             P.TaskManager.Abort();
             SchedulerMain.CharacterPostProcessLocked = false;
-            Notify.Success("Reset completed");
+            Notify.Success("Reset completed".Loc());
         }
         else if(arguments.EqualsIgnoreCase("deliver"))
         {
@@ -788,7 +789,7 @@ public unsafe class AutoRetainer : IDalamudPlugin
                             if(bellBehavior != OpenBellBehavior.Pause_AutoRetainer && IsKeyPressed(C.Suppress) && !CSFramework.Instance()->WindowInactive)
                             {
                                 bellBehavior = OpenBellBehavior.Do_nothing;
-                                Notify.Info($"Open bell action cancelled");
+                                Notify.Info("Open bell action cancelled".Loc());
                             }
                             if(SchedulerMain.PluginEnabled && bellBehavior == OpenBellBehavior.Pause_AutoRetainer)
                             {

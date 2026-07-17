@@ -85,7 +85,7 @@ internal static unsafe class VoyageMain
                     //Notify.Info($"Entered voyage panel");
                     if(IsKeyPressed(C.Suppress))
                     {
-                        Notify.Warning("No operation was requested by user");
+                        Notify.Warning("No operation was requested by user".Loc());
                     }
                     else
                     {
@@ -98,7 +98,7 @@ internal static unsafe class VoyageMain
                             }
                             else
                             {
-                                Notify.Warning($"Warning!\nDeployables were not enabled as there are nothing to process yet");
+                                Notify.Warning("Warning!\nDeployables were not enabled as there are nothing to process yet".Loc());
                             }
                         }
                     }

@@ -206,7 +206,7 @@ public static unsafe class Utils
     {
         if(!Utils.IsLifestreamInstalled())
         {
-            ImGuiEx.TextWrapped(EColor.RedBright, $"Lifestream plugin is not installed or not enabled. You have to install and enable it in order for {function} to work. Click here if you would like to open an instruction on how to do so.");
+            ImGuiEx.TextWrapped(EColor.RedBright, "Lifestream plugin is not installed or not enabled. You have to install and enable it in order for ?? to work. Click here if you would like to open an instruction on how to do so.".Loc(function.Loc()));
             if(ImGuiEx.HoveredAndClicked())
             {
                 ShellStart("https://github.com/NightmareXIV/Lifestream/?tab=readme-ov-file#installation");
@@ -232,8 +232,8 @@ public static unsafe class Utils
             }
             notification = Svc.NotificationManager.AddNotification(new()
             {
-                Title = "Lifestream is not installed",
-                Content = $"Lifestream plugin is required to use {function}. Click here for a guide on how to install it.",
+                Title = "Lifestream is not installed".Loc(),
+                Content = "Lifestream plugin is required to use ??. Click here for a guide on how to install it.".Loc(function.Loc()),
                 InitialDuration = TimeSpan.FromSeconds(60),
                 Type = NotificationType.Error,
                 Minimized = false,

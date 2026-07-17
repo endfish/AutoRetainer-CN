@@ -11,13 +11,13 @@ public sealed class GilDisplayManager
     public void Draw()
     {
         ImGuiEx.SetNextItemWidthScaled(200f);
-        ImGui.InputInt("Ignore characters/retainers with gil less than", ref C.MinGilDisplay.ValidateRange(0, int.MaxValue));
-        ImGuiComponents.HelpMarker($"Ignored retainer gil still contributes to character/DC total. Character is ignored if their gil AND all retainers' gil is less than this value. Ignored characters do not contribute to DC total.");
+        ImGui.InputInt("Ignore characters/retainers with gil less than".Loc(), ref C.MinGilDisplay.ValidateRange(0, int.MaxValue));
+        ImGuiComponents.HelpMarker("Ignored retainer gil still contributes to character/DC total. Character is ignored if their gil AND all retainers' gil is less than this value. Ignored characters do not contribute to DC total.".Loc());
         ref var filter = ref Ref<string>.Get();
-        ImGui.Checkbox("Only display character total", ref C.GilOnlyChars);
+        ImGui.Checkbox("Only display character total".Loc(), ref C.GilOnlyChars);
         ImGui.SameLine();
         ImGuiEx.SetNextItemFullWidth();
-        ImGui.InputTextWithHint("##fltr", "Filter...", ref filter, 50);
+        ImGui.InputTextWithHint("##fltr", "Filter...".Loc(), ref filter, 50);
         Dictionary<ExcelWorldHelper.Region, List<OfflineCharacterData>> data = [];
         foreach(var x in C.OfflineData)
         {
@@ -64,11 +64,11 @@ public sealed class GilDisplayManager
                         }
                         if(fcdata != null && fcdata.Gil > 0)
                         {
-                            ImGuiEx.Text(ImGuiColors.DalamudYellow, $"        Free Company {fcdata.Name}: {fcdata.Gil:N0}");
+                            ImGuiEx.Text(ImGuiColors.DalamudYellow, "        " + "Free Company ??: ??".Loc(fcdata.Name, fcdata.Gil.ToString("N0")));
                         }
                     }
-                    ImGuiEx.Text(ImGuiColors.DalamudViolet, $"    {Censor.Character(c.Name, c.World)}{(fcdata != null && fcdata.Gil > 0 ? "+FC" : "")} total: {charTotal:N0}");
-                    if(ImGuiEx.HoveredAndClicked("Click to relog"))
+                    ImGuiEx.Text(ImGuiColors.DalamudViolet, "    " + "?? total: ??".Loc(Censor.Character(c.Name, c.World) + (fcdata != null && fcdata.Gil > 0 ? "+FC" : ""), charTotal.ToString("N0")));
+                    if(ImGuiEx.HoveredAndClicked("Click to relog".Loc()))
                     {
                         if(!MultiMode.Relog(c, out var error, Internal.RelogReason.Command))
                         {
@@ -79,11 +79,11 @@ public sealed class GilDisplayManager
                     ImGui.Separator();
                 }
             }
-            ImGuiEx.Text(ImGuiColors.DalamudOrange, $"Data center total ({x.Key}): {dcTotal:N0}");
+            ImGuiEx.Text(ImGuiColors.DalamudOrange, "Data center total (??): ??".Loc(x.Key, dcTotal.ToString("N0")));
             globalTotal += dcTotal;
             ImGui.Separator();
             ImGui.Separator();
         }
-        ImGuiEx.Text(ImGuiColors.DalamudOrange, $"Overall total: {globalTotal:N0}");
+        ImGuiEx.Text(ImGuiColors.DalamudOrange, "Overall total: ??".Loc(globalTotal.ToString("N0")));
     }
 }

@@ -21,15 +21,15 @@ public sealed class VentureStatsManager
         {
             Load();
         }
-        if(ImGui.Button("Reload"))
+        if(ImGui.Button("Reload".Loc()))
         {
             Load();
         }
         ImGui.SameLine();
-        ImGui.Checkbox("Show HQ and non-HQ together", ref C.StatsUnifyHQ);
+        ImGui.Checkbox("Show HQ and non-HQ together".Loc(), ref C.StatsUnifyHQ);
         ImGui.SameLine();
         ImGuiEx.SetNextItemFullWidth();
-        ImGui.InputTextWithHint("##search", "Filter items...", ref Filter, 100);
+        ImGui.InputTextWithHint("##search", "Filter items...".Loc(), ref Filter, 100);
         var cindex = 0;
         foreach(var cData in Data)
         {
@@ -37,7 +37,7 @@ public sealed class VentureStatsManager
             var display = false;
             if(CharTotal[cData.Key] != 0)
             {
-                if(ImGui.CollapsingHeader($"{Censor.Character(cData.Key)} | Total Ventures: {CharTotal.GetSafe(cData.Key)}###chara{cData.Key}"))
+                if(ImGui.CollapsingHeader("?? | Total Ventures: ??".Loc(Censor.Character(cData.Key), CharTotal.GetSafe(cData.Key)) + $"###chara{cData.Key}"))
                 {
                     display = true;
                 }
@@ -52,7 +52,7 @@ public sealed class VentureStatsManager
                 {
                     ImGui.Dummy(new(10, 1));
                     ImGui.SameLine();
-                    if(ImGui.CollapsingHeader($"{Censor.Retainer(x.Key)} | Ventures: {num}###{cData.Key}ret{x.Key}"))
+                    if(ImGui.CollapsingHeader("?? | Ventures: ??".Loc(Censor.Retainer(x.Key), num) + $"###{cData.Key}ret{x.Key}"))
                     {
                         foreach(var c in array)
                         {
@@ -101,7 +101,7 @@ public sealed class VentureStatsManager
         catch(Exception e)
         {
             e.Log();
-            Notify.Error($"Error: {e.Message}");
+            Notify.Error("Error: ??".Loc(e.Message));
         }
     }
 

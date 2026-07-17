@@ -2,7 +2,7 @@
 
 internal class LogWindow : Window
 {
-    public LogWindow() : base("AutoRetainer log")
+    public LogWindow() : base("AutoRetainer log".Loc())
     {
         P.WindowSystem.AddWindow(this);
         SizeConstraints = new()

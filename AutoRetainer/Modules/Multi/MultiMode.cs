@@ -516,7 +516,7 @@ internal static unsafe class MultiMode
                 {
                     z.Preferred = false;
                 }
-                Notify.Warning("Preferred character has been reset");
+                Notify.Warning("Preferred character has been reset".Loc());
             }
         }
         ErrorMessage = string.Empty;

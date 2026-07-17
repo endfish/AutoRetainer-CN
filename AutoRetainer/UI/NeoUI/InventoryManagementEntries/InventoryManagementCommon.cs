@@ -19,12 +19,12 @@ public unsafe class InventoryManagementCommon
     private bool Modified = false;
     public void DrawListNew(Action<uint> addAction, Action<uint> removeAction, IReadOnlyList<uint> itemList, Action<uint> additionalButtons = null, Predicate<Item> filter = null)
     {
-        if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Copy, "Copy to Clipboard"))
+        if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Copy, "Copy to Clipboard".Loc()))
         {
             Copy(EzConfig.DefaultSerializationFactory.Serialize(itemList, false));
         }
         ImGui.SameLine();
-        if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Paste, "Merge with Clipboard", ImGuiEx.Ctrl))
+        if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Paste, "Merge with Clipboard".Loc(), ImGuiEx.Ctrl))
         {
             try
             {
@@ -46,32 +46,32 @@ public unsafe class InventoryManagementCommon
                 e.Log();
             }
         }
-        ImGuiEx.Tooltip("Hold CTRL and click");
-        ImGuiEx.TreeNodeCollapsingHeader("Mass addition/removal", () =>
+        ImGuiEx.Tooltip("Hold CTRL and click".Loc());
+        ImGuiEx.TreeNodeCollapsingHeader("Mass addition/removal".Loc(), () =>
         {
             ImGui.SetNextItemWidth(200f);
-            if(ImGui.BeginCombo("Select Categories", SelectedCategories.Count != 0 ? $"{SelectedCategories.Count} selected" : "None selected", ImGuiComboFlags.HeightLarge))
+            if(ImGui.BeginCombo("Select Categories".Loc() + "###Select Categories", SelectedCategories.Count != 0 ? "?? selected".Loc(SelectedCategories.Count) : "None selected".Loc(), ImGuiComboFlags.HeightLarge))
             {
-                if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Plus, "All"))
+                if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Plus, "All".Loc()))
                 {
                     SelectedCategories.Clear();
                     SelectedCategories.UnionWith(Svc.Data.GetExcelSheet<ItemUICategory>().Where(x => x.Name != "").Select(x => x.RowId));
                     Modified = true;
                 }
                 ImGui.SameLine();
-                if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Minus, "None"))
+                if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Minus, "None".Loc()))
                 {
                     SelectedCategories.Clear();
                     Modified = true;
                 }
                 ImGui.SameLine();
-                if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Hammer, "+Main/offhand"))
+                if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.Hammer, "+Main/offhand".Loc()))
                 {
                     SelectedCategories.Add(Utils.WeaponsUICategories);
                     Modified = true;
                 }
                 ImGui.SameLine();
-                if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.User, "+Armor"))
+                if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.User, "+Armor".Loc()))
                 {
                     SelectedCategories.Add(Utils.ArmorsUICategories);
                     Modified = true;
@@ -88,9 +88,9 @@ public unsafe class InventoryManagementCommon
             if(SelectedCategories.Count > 0)
             {
                 ImGui.SetNextItemWidth(200f);
-                Modified |= ImGui.InputText($"Filter by name", ref ItemSearch, 100);
+                Modified |= ImGui.InputText("Filter by name".Loc() + "###Filter by name", ref ItemSearch, 100);
                 ImGui.SetNextItemWidth(200f);
-                if(ImGui.BeginCombo("Select rarity", Rarities.Any() ? $"{Rarities.Print()}" : "Any rarity", ImGuiComboFlags.HeightLarge))
+                if(ImGui.BeginCombo("Select rarity".Loc() + "###Select rarity", Rarities.Any() ? $"{Rarities.Print()}" : "Any rarity".Loc(), ImGuiComboFlags.HeightLarge))
                 {
                     foreach(var r in Enum.GetValues<ItemRarity>())
                     {
@@ -99,10 +99,10 @@ public unsafe class InventoryManagementCommon
                     ImGui.EndCombo();
                 }
                 ImGui.SetNextItemWidth(200f);
-                Modified |= ImGui.InputInt("Minimum item level", ref ItemLevelMin);
+                Modified |= ImGui.InputInt("Minimum item level".Loc() + "###Minimum item level", ref ItemLevelMin);
                 ImGui.SetNextItemWidth(200f);
-                Modified |= ImGui.InputInt("Maximum item level", ref ItemLevelMax);
-                Modified |= ImGuiEx.Checkbox("Tradeable", ref Tradeable);
+                Modified |= ImGui.InputInt("Maximum item level".Loc() + "###Maximum item level", ref ItemLevelMax);
+                Modified |= ImGuiEx.Checkbox("Tradeable".Loc(), ref Tradeable);
 
                 if(Modified)
                 {
@@ -116,7 +116,7 @@ public unsafe class InventoryManagementCommon
                     && (filter == null || filter(x))
                     ).ToList();
                 }
-                if(ImGuiEx.CollapsingHeader($"Selected {SelectedItems.Count} items, among which {SelectedItems.Count(x => itemList.Contains(x.RowId))} already present in list###counter"))
+                if(ImGuiEx.CollapsingHeader("Selected ?? items, among which ?? already present in list".Loc(SelectedItems.Count, SelectedItems.Count(x => itemList.Contains(x.RowId))) + "###counter"))
                 {
                     var actions = new List<Action>();
                     foreach(var x in SelectedItems)
@@ -136,14 +136,14 @@ public unsafe class InventoryManagementCommon
                             {
                                 if(!itemList.Contains(x.RowId))
                                 {
-                                    if(ImGuiEx.HoveredAndClicked("Click to add this single item to list immediately"))
+                                    if(ImGuiEx.HoveredAndClicked("Click to add this single item to list immediately".Loc()))
                                     {
                                         addAction(x.RowId);
                                     }
                                 }
                                 else
                                 {
-                                    if(ImGuiEx.HoveredAndClicked("Right click to remove this single item from list immediately", ImGuiMouseButton.Right))
+                                    if(ImGuiEx.HoveredAndClicked("Right click to remove this single item from list immediately".Loc(), ImGuiMouseButton.Right))
                                     {
                                         removeAction(x.RowId);
                                     }
@@ -154,22 +154,22 @@ public unsafe class InventoryManagementCommon
                     var draw = ImGuiEx.Pagination([.. actions], 100, 10);
                     ImGuiEx.EzTableColumns("cols", draw, Math.Max(1, (int)ImGui.GetContentRegionAvail().X / 150));
                 }
-                if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.PlusSquare, "Add these items to list", ImGuiEx.Ctrl))
+                if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.PlusSquare, "Add these items to list".Loc(), ImGuiEx.Ctrl))
                 {
                     foreach(var x in SelectedItems)
                     {
                         if(!itemList.Contains(x.RowId)) addAction(x.RowId);
                     }
                 }
-                ImGuiEx.Tooltip("Hold CTRL and click");
-                if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.MinusSquare, "Remove these items to list", ImGuiEx.Ctrl))
+                ImGuiEx.Tooltip("Hold CTRL and click".Loc());
+                if(ImGuiEx.IconButtonWithText(FontAwesomeIcon.MinusSquare, "Remove these items to list".Loc(), ImGuiEx.Ctrl))
                 {
                     foreach(var x in SelectedItems)
                     {
                         removeAction(x.RowId);
                     }
                 }
-                ImGuiEx.Tooltip("Hold CTRL and click");
+                ImGuiEx.Tooltip("Hold CTRL and click".Loc());
             }
         });
 
@@ -248,7 +248,7 @@ public unsafe class InventoryManagementCommon
 
     public void ImportFromArDiscard(List<uint> target)
     {
-        if(ImGuiEx.Button("Import discard entries from Discard Helper", ImGuiEx.Ctrl))
+        if(ImGuiEx.Button("Import discard entries from Discard Helper".Loc(), ImGuiEx.Ctrl))
         {
             try
             {
@@ -265,13 +265,13 @@ public unsafe class InventoryManagementCommon
                 ex.Log();
             }
         }
-        ImGuiEx.HelpMarker("If you're using Discard Helper plugin, you may import entries from it using this button. They will be merged with your existing entries. Hold CTRL and click.");
+        ImGuiEx.HelpMarker("If you're using Discard Helper plugin, you may import entries from it using this button. They will be merged with your existing entries. Hold CTRL and click.".Loc());
     }
 
     public void ImportBlacklistFromArDiscard()
     {
         var s = InventoryCleanupCommon.SelectedPlan;
-        if(ImGuiEx.Button("Import blacklisted entries from Discard Helper", ImGuiEx.Ctrl))
+        if(ImGuiEx.Button("Import blacklisted entries from Discard Helper".Loc(), ImGuiEx.Ctrl))
         {
             try
             {
@@ -288,7 +288,7 @@ public unsafe class InventoryManagementCommon
                 ex.Log();
             }
         }
-        ImGuiEx.HelpMarker("If you're using Discard Helper plugin, you may import entries from it using this button. They will be merged with your existing entries. Hold CTRL and click.");
+        ImGuiEx.HelpMarker("If you're using Discard Helper plugin, you may import entries from it using this button. They will be merged with your existing entries. Hold CTRL and click.".Loc());
     }
 
     private static void DrawListOfItems(List<uint> ItemList)
