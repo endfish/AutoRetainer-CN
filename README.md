@@ -6,7 +6,17 @@
 
 本分支不向上游提交汉化或功能 PR；中文版的问题请在本仓库反馈，不要向上游寻求支持。由于保留了 `InternalName: AutoRetainer` 以兼容现有配置和 IPC，中文版与上游原版不能同时启用。
 
-> 简体中文本地化正在分模块接入，当前仓库可能尚未达到正式发布标准。
+当前中文版已完成首轮界面覆盖并进入公开维护阶段；游戏版本适配与自动化行为继续跟随对应的上游版本维护。
+
+## AutoRetainer-CN 安装
+
+在 Dalamud 设置的 `Experimental` 页面，将下面的地址添加到自定义插件仓库，然后在插件安装器中搜索 `AutoRetainer-CN`：
+
+```text
+https://raw.githubusercontent.com/endfish/DalamudPlugins/main/repo.json
+```
+
+安装中文版前请先卸载或停用上游原版，二者不能同时启用。
 
 ## Upstream README
 
