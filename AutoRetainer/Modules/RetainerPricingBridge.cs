@@ -117,8 +117,12 @@ internal static unsafe class RetainerPricingBridge
     {
         try
         {
-            if(job != null || P.TaskManager.IsBusy || SchedulerMain.PluginEnabledInternal || MultiMode.Enabled)
+            if(job != null || P.TaskManager.IsBusy || MultiMode.Enabled)
             {
+                DebugLog(
+                    $"[RetainerPricingBridge] Rejected busy job {jobId} from {clientId}: "
+                    + $"pricingJob={job != null}, taskManager={P.TaskManager.IsBusy}, "
+                    + $"schedulerEnabled={SchedulerMain.PluginEnabledInternal}, multiMode={MultiMode.Enabled}");
                 return (int)StartResult.Busy;
             }
 
@@ -245,7 +249,6 @@ internal static unsafe class RetainerPricingBridge
            || Svc.ClientState.LocalContentId != currentJob.CharacterId
            || Svc.ClientState.TerritoryType != currentJob.TerritoryId
            || !Svc.Condition[ConditionFlag.OccupiedSummoningBell]
-           || SchedulerMain.PluginEnabledInternal
            || MultiMode.Enabled)
         {
             RequestEnd(EndResult.EnvironmentChanged);
