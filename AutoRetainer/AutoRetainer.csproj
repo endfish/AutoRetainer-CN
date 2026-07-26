@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Authors>NightmareXIV, kawaii</Authors>
-		<Version>4.6.1.10</Version>
+		<Version>4.6.2.0</Version>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -118,6 +118,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Include="..\LICENCE.md" Link="LICENCE.md">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="LanguageChinese.ini">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>

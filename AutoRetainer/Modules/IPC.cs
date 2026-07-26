@@ -34,6 +34,7 @@ internal static class IPC
         Svc.PluginInterface.GetIpcProvider<string, object>(ApiConsts.RequestCharacterPostProcess).RegisterAction(RequestCharacterPostprocess);
         Svc.PluginInterface.GetIpcProvider<object>(ApiConsts.FinishCharacterPostprocessRequest).RegisterAction(FinishCharacterPostprocessRequest);
         Svc.PluginInterface.GetIpcProvider<string, object>(ApiConsts.OnRetainerListCustomTask).RegisterAction(OnRetainerListCustomTask);
+        RetainerPricingBridge.Init();
         EzIPC.Init(typeof(IPC));
     }
 
@@ -45,6 +46,7 @@ internal static class IPC
     internal static void Shutdown()
     {
         Log("IPC Shutdown");
+        RetainerPricingBridge.Shutdown();
         Svc.PluginInterface.GetIpcProvider<object>("AutoRetainer.Init").UnregisterAction();
         Svc.PluginInterface.GetIpcProvider<bool>("AutoRetainer.GetSuppressed").UnregisterFunc();
         Svc.PluginInterface.GetIpcProvider<bool, object>("AutoRetainer.SetSuppressed").UnregisterAction();
