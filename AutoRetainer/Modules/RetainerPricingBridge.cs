@@ -29,6 +29,13 @@ internal static unsafe class RetainerPricingBridge
     private static PricingJob job;
     private static bool initialized;
 
+    /// <summary>
+    /// Suspends AutoRetainer automation for the full lifetime of an accepted pricing job.
+    /// The configured scheduler and MultiMode states are left untouched so they can resume
+    /// after normal completion or recovery releases the job.
+    /// </summary>
+    internal static bool IsAutomationLocked => job != null;
+
     private enum StartResult
     {
         Success = 0,

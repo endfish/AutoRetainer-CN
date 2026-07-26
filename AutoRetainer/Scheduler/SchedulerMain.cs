@@ -26,6 +26,9 @@ internal static unsafe class SchedulerMain
         }
     }
 
+    internal static bool AutomationActive => PluginEnabled
+                                             && !RetainerPricingBridge.IsAutomationLocked;
+
     internal static bool CanAssignQuickExploration => C.EnableAssigningQuickExploration && !C.DontReassign && Utils.GetVenturesAmount() > 1;
     internal static volatile uint VentureOverride = 0;
     internal static volatile bool RetainerPostProcessLocked = false;
@@ -52,7 +55,7 @@ internal static unsafe class SchedulerMain
 
     internal static void Tick()
     {
-        if(PluginEnabled)
+        if(AutomationActive)
         {
             if(C.RetainerSense)
             {

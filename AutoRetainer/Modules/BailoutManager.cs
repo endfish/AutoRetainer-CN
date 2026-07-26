@@ -16,6 +16,13 @@ internal static unsafe class BailoutManager
 
     internal static void Tick()
     {
+        if(RetainerPricingBridge.IsAutomationLocked)
+        {
+            NoSelectString = Environment.TickCount64;
+            CharaSelectStuck = Environment.TickCount64;
+            return;
+        }
+
         if(C.EnableBailout)
         {
             if(SchedulerMain.PluginEnabled || (MultiMode.Enabled && VoyageUtils.IsInVoyagePanel()))

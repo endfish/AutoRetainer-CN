@@ -563,7 +563,7 @@ public unsafe class AutoRetainer : IDalamudPlugin
     {
         if(!IPC.Suppressed)
         {
-            if(SchedulerMain.PluginEnabled && Svc.ClientState.LocalPlayer != null)
+            if(SchedulerMain.AutomationActive && Svc.ClientState.LocalPlayer != null)
             {
                 SchedulerMain.Tick();
                 if(!C.SelectedRetainers.ContainsKey(Svc.ClientState.LocalContentId))
@@ -624,7 +624,7 @@ public unsafe class AutoRetainer : IDalamudPlugin
         IsNextToBell = false;
         if(C.RetainerSense && Svc.ClientState.LocalPlayer != null && Svc.ClientState.LocalPlayer.HomeWorld.RowId == Svc.ClientState.LocalPlayer.CurrentWorld.RowId)
         {
-            if(!IPC.Suppressed && !IsOccupied() && !C.OldRetainerSense && !TaskManager.IsBusy && !Utils.MultiModeOrArtisan && !Svc.Condition[ConditionFlag.InCombat] && !Svc.Condition[ConditionFlag.BoundByDuty] && Utils.IsAnyRetainersCompletedVenture())
+            if(!RetainerPricingBridge.IsAutomationLocked && !IPC.Suppressed && !IsOccupied() && !C.OldRetainerSense && !TaskManager.IsBusy && !Utils.MultiModeOrArtisan && !Svc.Condition[ConditionFlag.InCombat] && !Svc.Condition[ConditionFlag.BoundByDuty] && Utils.IsAnyRetainersCompletedVenture())
             {
                 var bell = Utils.GetReachableRetainerBell(true);
                 if(bell == null || LastPosition != Svc.ClientState.LocalPlayer.Position)

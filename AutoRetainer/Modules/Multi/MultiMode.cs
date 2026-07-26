@@ -23,7 +23,9 @@ namespace AutoRetainer.Modules.Multi;
 
 internal static unsafe class MultiMode
 {
-    internal static bool Active => Enabled && !IPC.Suppressed;
+    internal static bool Active => Enabled
+                                   && !IPC.Suppressed
+                                   && !RetainerPricingBridge.IsAutomationLocked;
     internal static HashSet<string> SingleMultiMide = null;
     internal static ref bool Enabled => ref C.MultiModeEnabled;
 

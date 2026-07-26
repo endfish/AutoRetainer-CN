@@ -11,6 +11,11 @@ internal static class ArtisanManager
 
     internal static void ArtisanTick()
     {
+        if(RetainerPricingBridge.IsAutomationLocked)
+        {
+            return;
+        }
+
         if(C.ArtisanIntegration)
         {
             if(IsCurrentlyOperating() && MultiMode.EnsureCharacterValidity(true))
