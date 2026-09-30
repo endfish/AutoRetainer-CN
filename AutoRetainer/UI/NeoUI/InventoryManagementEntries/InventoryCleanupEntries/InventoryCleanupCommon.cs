@@ -154,7 +154,7 @@ public static unsafe class InventoryCleanupCommon
             if(charas.Length > 0)
             {
                 ImGuiEx.Text("Used by ?? characters in total".Loc(charas.Length));
-                ImGuiEx.Tooltip($"{charas.Select(x => x.NameWithWorldCensored)}");
+                ImGuiEx.Tooltip($"{charas.Select(x => x.NameWithWorldCensored).Print("\n")}");
             }
             else
             {

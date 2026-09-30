@@ -105,6 +105,21 @@ internal static class UIUtils
         }
     }
 
+    public static void DragDropRepopulate<T>(string dragDropIdentifier, T data, ICollection<T> collection) where T : struct
+    {
+        DragDropRepopulate(dragDropIdentifier, data, source =>
+        {
+            if(collection.Contains(source))
+            {
+                if(!collection.Contains(data)) collection.Add(data);
+            }
+            else
+            {
+                collection.Remove(data);
+            }
+        });
+    }
+
     public static void DragDropRepopulate<T>(string dragDropIdentifier, T data, ref T field) where T : struct
     {
         ImGuiEx.Tooltip("Drag this selector to other selectors to set their values to the same".Loc());

@@ -160,6 +160,9 @@
 		<None Update="res\processing.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="res\single.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="res\submarine.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>

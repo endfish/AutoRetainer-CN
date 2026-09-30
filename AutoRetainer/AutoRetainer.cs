@@ -181,6 +181,8 @@ public unsafe class AutoRetainer : IDalamudPlugin
             "/autoretainer het - enter nearby own house or apartment if possible".Loc(),
             "/autoretainer reset - reset all pending tasks".Loc(),
             "/autoretainer deliver - deliver expert delivery items".Loc(),
+            "/autoretainer armoire - deliver all eligible items into armoire".Loc(),
+            "/autoretainer dresser - deliver all eligible items into glamour dresser (requires Glamour Log plugin)".Loc(),
         ]));
         EzCmd.Add("/ays", CommandHandler);
         Svc.Toasts.ErrorToast += Toasts_ErrorToast;
@@ -258,7 +260,7 @@ public unsafe class AutoRetainer : IDalamudPlugin
             //4330	57	33	0	False	リテイナーベンチャー「<Value>IntegerParameter(2)</Value> <Sheet(Item,IntegerParameter(1),0)/>」を依頼しました。
             //4330	57	33	0	False	Du hast deinen Gehilfen mit der Beschaffung von <SheetDe(Item,1,IntegerParameter(1),IntegerParameter(3),3,1)/> ( <Value>IntegerParameter(2)</Value>) beauftragt.
             //4330	57	33	0	False	Vous avez confié la tâche “<SheetFr(Item,12,IntegerParameter(1),2,1)/> ( <Value>IntegerParameter(2)</Value>)” à votre servant.
-            if(text.StartsWithAny("You assign your retainer".Cleanup(), "リテイナーベンチャー".Cleanup(), "Du hast deinen Gehilfen mit".Cleanup(), "Vous avez confié la tâche".Cleanup())
+            if(text.StartsWithAny(Lang.LogMessageOpening(4330).Cleanup())
                 && Utils.TryGetCurrentRetainer(out var ret)
                 && C.OfflineData.TryGetFirst(x => x.CID == Svc.ClientState.LocalContentId, out var offlineData)
                 && offlineData.RetainerData.TryGetFirst(x => x.Name == ret, out var offlineRetainerData))
@@ -408,6 +410,35 @@ public unsafe class AutoRetainer : IDalamudPlugin
             else
             {
                 DuoLog.Error($"No valid housing NPC or retainer bell were found, or AutoRetainer is busy, or sale function is disabled");
+            }
+        }
+        else if(arguments.EqualsIgnoreCaseAny("armoire"))
+        {
+            if(!IsOccupied() && !TaskManager.IsBusy)
+            {
+                S.CabinetManager.EnqueueGoToInnAndDeliverEverything();
+            }
+            else
+            {
+                DuoLog.Warning("AutoRetainer is busy or player is occupied.");
+            }
+        }
+        else if(arguments.EqualsIgnoreCaseAny("dresser"))
+        {
+            if(GlamourLog.Available)
+            {
+                if(!IsOccupied() && !TaskManager.IsBusy)
+                {
+                    S.MirageManager.EnqueueGoToInnAndDeliverEverything();
+                }
+                else
+                {
+                    DuoLog.Warning("AutoRetainer is busy or player is occupied.");
+                }
+            }
+            else
+            {
+                DuoLog.Warning($"Glamour Log plugin is required for this function.");
             }
         }
         else if(arguments.StartsWith("shutdown"))
