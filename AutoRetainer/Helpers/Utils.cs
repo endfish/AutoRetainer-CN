@@ -83,6 +83,7 @@ public static unsafe class Utils
 
     public static void CleanupOperations()
     {
+        if(RetainerPricingBridge.IsAutomationLocked) return;
         VoyageScheduler.Enabled = false;
         SchedulerMain.PluginEnabledInternal = false;
         P.TaskManager.Abort();

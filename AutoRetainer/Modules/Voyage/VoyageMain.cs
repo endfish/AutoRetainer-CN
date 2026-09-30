@@ -27,6 +27,7 @@ internal static unsafe class VoyageMain
 
     private static void Toasts_ErrorToast(ref SeString message, ref bool isHandled)
     {
+        if(RetainerPricingBridge.IsAutomationLocked) return;
         if(MultiMode.Active || P.TaskManager.IsBusy)
         {
             var txt = message.GetText();
