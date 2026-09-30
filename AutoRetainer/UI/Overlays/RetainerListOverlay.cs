@@ -155,7 +155,7 @@ internal unsafe class RetainerListOverlay : Window
                                     }
                                     else
                                     {
-                                        Notify.Warning("No items in inventory to entrust");
+                                        Notify.Warning("No items in inventory to entrust".Loc());
                                     }
                                 }
                             }

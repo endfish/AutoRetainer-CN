@@ -65,7 +65,7 @@ internal static unsafe class BailoutManager
                 if(AddonOpenedAt.TryGetValue(x.Name, out var value) && value != 0 && Environment.TickCount64 - value > x.Timeout.TotalMilliseconds)
                 {
                     Utils.CleanupOperations();
-                    S.AnomalyWindow.Add($"UI stuck during multi mode ({x}). Cleaning up operations and trying to resume.");
+                    S.AnomalyWindow.Add("UI stuck during multi mode (??). Cleaning up operations and trying to resume.".Loc(x.Name));
                     AddonOpenedAt.Clear();
                     break;
                 }
@@ -109,7 +109,7 @@ internal static unsafe class BailoutManager
                                 CharaSelectStuck = Environment.TickCount64;
                                 EzThrottler.Throttle("MultiModeAfkOnTitleLogin", 60000, true);
                                 IsLogOnTitleEnabled = true;
-                                S.AnomalyWindow.Add("Stuck character select encountered. Retrying login...");
+                                S.AnomalyWindow.Add("Stuck character select encountered. Retrying login...".Loc());
                             }
                         }
                     }
@@ -136,13 +136,13 @@ internal static unsafe class BailoutManager
                             addon->GetComponentButtonById(4)->ClickAddonButton(addon);
                             EzThrottler.Throttle("MultiModeAfkOnTitleLogin", 60000, true);
                             IsLogOnTitleEnabled = true;
-                            S.AnomalyWindow.Add("Disconnected. Trying to log back in...");
+                            S.AnomalyWindow.Add("Disconnected. Trying to log back in...".Loc());
                         }
                     }
                 }
                 else if(EzThrottler.Throttle("NotifyRestart", TimeSpan.FromDays(10)))
                 {
-                    S.AnomalyWindow.Add("You need to restart your game to continue playing.");
+                    S.AnomalyWindow.Add("You need to restart your game to continue playing.".Loc());
                 }
             }
         }
@@ -155,18 +155,18 @@ internal static unsafe class BailoutManager
             if(WrathCombo.Available && WrathCombo.GetAutoRotationState())
             {
                 Svc.Commands.ProcessCommand("/wrath auto off");
-                S.AnomalyWindow.Add("Wrath Combo autorotation is on. Autoretainer has turned it off.");
+                S.AnomalyWindow.Add("Wrath Combo autorotation is on. Autoretainer has turned it off.".Loc());
             }
             if(BossMod.Available && BossMod.Presets_GetActiveList().Count > 0)
             {
                 BossMod.Presets_ClearActive();
                 Svc.Commands.ProcessCommand("/vbm ai off");
-                S.AnomalyWindow.Add("Boss mod was active. Autoretainer has turned it off.");
+                S.AnomalyWindow.Add("Boss mod was active. Autoretainer has turned it off.".Loc());
             }
             if(Questionable.Available && Questionable.IsRunning())
             {
                 Questionable.Stop(Svc.PluginInterface.InternalName);
-                S.AnomalyWindow.Add("Questionable was active. Autoretainer has turned it off.");
+                S.AnomalyWindow.Add("Questionable was active. Autoretainer has turned it off.".Loc());
             }
         }
     }
@@ -204,7 +204,7 @@ internal static unsafe class BailoutManager
                         Lifestream.Abort();
                         Chat.ExecuteCommand("/automove off");
                         Utils.CleanupOperations();
-                        S.AnomalyWindow.Add($"Movement stuck. Character excluded from submarines and retainers. Check your house registration.");
+                        S.AnomalyWindow.Add("Movement stuck. Character excluded from submarines and retainers. Check your house registration.".Loc());
                     }
                 }
             }

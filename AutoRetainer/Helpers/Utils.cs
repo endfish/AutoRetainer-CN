@@ -96,7 +96,7 @@ public static unsafe class Utils
         {
             Data.WorkshopEnabled = false;
             CleanupOperations();
-            S.AnomalyWindow.Add($"Insufficient fuel. To ensure stable operation, you must have 30 or more ceruleum tanks, this is a hard requirement. You have only {fuelInInventory} ceruleum tanks. Please replenish your fuel. Character excluded from submarines.");
+            S.AnomalyWindow.Add("Insufficient fuel. To ensure stable operation, you must have 30 or more ceruleum tanks, this is a hard requirement. You have only ?? ceruleum tanks. Please replenish your fuel. Character excluded from submarines.".Loc(fuelInInventory));
         }
     }
 

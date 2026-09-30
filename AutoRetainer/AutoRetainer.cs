@@ -420,7 +420,7 @@ public unsafe class AutoRetainer : IDalamudPlugin
             }
             else
             {
-                DuoLog.Warning("AutoRetainer is busy or player is occupied.");
+                DuoLog.Warning("AutoRetainer is busy or player is occupied.".Loc());
             }
         }
         else if(arguments.EqualsIgnoreCaseAny("dresser"))
@@ -433,12 +433,12 @@ public unsafe class AutoRetainer : IDalamudPlugin
                 }
                 else
                 {
-                    DuoLog.Warning("AutoRetainer is busy or player is occupied.");
+                    DuoLog.Warning("AutoRetainer is busy or player is occupied.".Loc());
                 }
             }
             else
             {
-                DuoLog.Warning($"Glamour Log plugin is required for this function.");
+                DuoLog.Warning("Glamour Log plugin is required for this function.".Loc());
             }
         }
         else if(arguments.StartsWith("shutdown"))

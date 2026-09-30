@@ -45,22 +45,22 @@ public class CharaOrder : NeoUIEntry
                     ImGui.TableNextColumn();
 
                     ImGuiEx.ButtonCheckbox(FontAwesomeIcon.GasPump, ref chr.AutoFuelPurchase, color: ImGuiColors.TankBlue);
-                    ImGuiEx.Tooltip("Allow this character to purchase fuel from workshop");
-                    ImGuiEx.DragDropRepopulate("EnFuel", chr.AutoFuelPurchase, ref chr.AutoFuelPurchase);
+                    ImGuiEx.Tooltip("Allow this character to purchase fuel from workshop".Loc());
+                    UIUtils.DragDropRepopulate("EnFuel", chr.AutoFuelPurchase, ref chr.AutoFuelPurchase);
 
                     ImGui.SameLine();
 
                     ImGuiEx.ButtonCheckbox(FontAwesomeIcon.BuildingFlag, ref chr.NoFcBuffUse, color: !C.FullAutoGCDeliveryUseBuffFCAction ? ImGuiColors.DalamudRed : ImGuiColors.TankBlue, inverted: true);
-                    ImGuiEx.Tooltip("Allow this character to use FC buffs");
-                    if(!C.FullAutoGCDeliveryUseBuffFCAction) ImGuiEx.Tooltip(EColor.RedBright, $"You are required to enable this function globally as well in order for it to work.");
-                    ImGuiEx.DragDropRepopulate("EnFcBuf", chr.NoFcBuffUse, ref chr.NoFcBuffUse);
+                    ImGuiEx.Tooltip("Allow this character to use FC buffs".Loc());
+                    if(!C.FullAutoGCDeliveryUseBuffFCAction) ImGuiEx.Tooltip(EColor.RedBright, "You are required to enable this function globally as well in order for it to work.".Loc());
+                    UIUtils.DragDropRepopulate("EnFcBuf", chr.NoFcBuffUse, ref chr.NoFcBuffUse);
 
                     ImGui.SameLine();
 
                     ImGuiEx.ButtonCheckbox(FontAwesomeIcon.Ticket, ref chr.NoItemBuffUse, color: !C.FullAutoGCDeliveryUseBuffItem ? ImGuiColors.DalamudRed : ImGuiColors.TankBlue, inverted: true);
-                    ImGuiEx.Tooltip("Allow this character to use priority seal allowance");
-                    if(!C.FullAutoGCDeliveryUseBuffItem) ImGuiEx.Tooltip(EColor.RedBright, $"You are required to enable this function globally as well in order for it to work.");
-                    ImGuiEx.DragDropRepopulate("EnGiBuf", chr.NoItemBuffUse, ref chr.NoItemBuffUse);
+                    ImGuiEx.Tooltip("Allow this character to use priority seal allowance".Loc());
+                    if(!C.FullAutoGCDeliveryUseBuffItem) ImGuiEx.Tooltip(EColor.RedBright, "You are required to enable this function globally as well in order for it to work.".Loc());
+                    UIUtils.DragDropRepopulate("EnGiBuf", chr.NoItemBuffUse, ref chr.NoItemBuffUse);
 
                     ImGui.TableNextColumn();
                     if(ImGuiEx.ButtonCheckbox(FontAwesomeIcon.Users, ref chr.ExcludeRetainer, inverted: true))

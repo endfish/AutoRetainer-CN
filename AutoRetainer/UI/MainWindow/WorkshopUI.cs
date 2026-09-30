@@ -346,7 +346,7 @@ internal static unsafe class WorkshopUI
         var disabled = data.OfflineSubmarineData.Count(x => data.EnabledSubs.Contains(x.Name)) + data.OfflineAirshipData.Count(x => data.EnabledAirships.Contains(x.Name)) >= 4 && !enabled.Contains(vessel.Name);
         if(disabled) ImGui.BeginDisabled();
         ImGuiEx.CollectionCheckbox($"{vessel.Name}##sub", vessel.Name, enabled);
-        ImGuiEx.DragDropRepopulate<bool>("SubEn", enabled.Contains(vessel.Name), x =>
+        UIUtils.DragDropRepopulate<bool>("SubEn", enabled.Contains(vessel.Name), x =>
         {
             if(x)
             {

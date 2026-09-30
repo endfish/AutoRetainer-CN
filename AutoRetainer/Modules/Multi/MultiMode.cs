@@ -156,7 +156,7 @@ internal static unsafe class MultiMode
                 if(val != 0)
                 {
                     Svc.GameConfig.Set(SystemConfigOption.AutoAfkSwitchingTime, 0u);
-                    S.AnomalyWindow.Add($"Your Auto Afk Switching Time option was incompatible with current AutoRetainer configuration and was set to (Never). This is not an error.");
+                    S.AnomalyWindow.Add("Your Auto Afk Switching Time option was incompatible with current AutoRetainer configuration and was set to (Never). This is not an error.".Loc());
                 }
             }
         }
@@ -166,7 +166,7 @@ internal static unsafe class MultiMode
                 if(val != 0)
                 {
                     Svc.GameConfig.Set(SystemConfigOption.IdlingCameraAFK, 0u);
-                    S.AnomalyWindow.Add($"Your Idling Camera AFK option was incompatible with current AutoRetainer configuration and was set to (Disabled). This is not an error.");
+                    S.AnomalyWindow.Add("Your Idling Camera AFK option was incompatible with current AutoRetainer configuration and was set to (Disabled). This is not an error.".Loc());
                 }
             }
         }

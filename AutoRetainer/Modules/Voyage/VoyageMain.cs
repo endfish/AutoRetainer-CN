@@ -33,13 +33,13 @@ internal static unsafe class VoyageMain
             if(txt == LogMessage.Get(4141).Text.GetText())
             {
                 //You are not authorized to finalize exploratory or subaquatic voyages.
-                S.AnomalyWindow.Add($"You lack sufficient permissions to resend submarines. Character excluded from submarines. (FC {(Player.Available?Player.Object.Struct()->FreeCompanyTagString:"")})");
+                S.AnomalyWindow.Add("You lack sufficient permissions to resend submarines. Character excluded from submarines. (FC ??)".Loc(Player.Available ? Player.Object.Struct()->FreeCompanyTagString : ""));
                 Utils.CleanupOperations();
                 Data.WorkshopEnabled = false;
             }
             if(txt == Lang.VoyageInventoryError)
             {
-                S.AnomalyWindow.Add($"Your inventory is full. Character excluded from submarines.");
+                S.AnomalyWindow.Add("Your inventory is full. Character excluded from submarines.".Loc());
                 Utils.CleanupOperations();
                 Data.WorkshopEnabled = false;
             }
@@ -48,7 +48,7 @@ internal static unsafe class VoyageMain
                 TaskRepairAll.Abort = true;
                 DuoLog.Warning($"[Voyage] You are out of repair components!");
                 Data.GetEnabledVesselsData(TaskRepairAll.Type).Remove(TaskRepairAll.Name);
-                S.AnomalyWindow.Add($"Out of repair materials, could not repair {TaskRepairAll.Type} {TaskRepairAll.Name}");
+                S.AnomalyWindow.Add("Out of repair materials, could not repair ?? ??.".Loc(TaskRepairAll.Type.ToString().Loc(), TaskRepairAll.Name));
             }
         }
     }
