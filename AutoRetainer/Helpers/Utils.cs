@@ -1599,7 +1599,9 @@ public static unsafe class Utils
 
     internal static bool TrySelectSpecificEntry(IEnumerable<string> text, Func<bool> Throttler = null)
     {
-        return TrySelectSpecificEntry((x) => x.StartsWithAny(text), Throttler);
+        var validText = text.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+        if(validText.Length == 0) return false;
+        return TrySelectSpecificEntry((x) => x.StartsWithAny(validText), Throttler);
         /*if (TryGetAddonByName<AddonSelectString>("SelectString", out var addon) && IsAddonReady(&addon->AtkUnitBase))
         {
             var entry = GetEntries(addon).FirstOrDefault(x => x.EqualsAny(text));
@@ -1780,6 +1782,9 @@ public static unsafe class Utils
 
     internal static AtkUnitBase* GetSpecificYesno(params string[] s)
     {
+        var validText = s.Where(x => !string.IsNullOrWhiteSpace(x))
+            .Select(x => x.Cleanup()).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+        if(validText.Length == 0) return null;
         for(var i = 1; i < 100; i++)
         {
             try
@@ -1792,7 +1797,7 @@ public static unsafe class Utils
                     if(textNode != null)
                     {
                         var text = textNode->NodeText.GetText().Cleanup();
-                        if(text.ContainsAny(s.Select(x => x.Cleanup())))
+                        if(text.ContainsAny(validText))
                         {
                             PluginLog.Verbose($"SelectYesno {s.Print()} addon {i}");
                             return addon;

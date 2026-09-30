@@ -372,18 +372,18 @@ internal static unsafe class VentureUtils
 
     internal static string GetHuntingVentureName(uint ClassJob)
     {
-        if(ClassJob == (int)Job.BTN) return Lang.HuntingVentureNames[2][..^1];
-        if(ClassJob == (int)Job.MIN) return Lang.HuntingVentureNames[1][..^1];
-        if(ClassJob == (int)Job.FSH) return Lang.HuntingVentureNames[3][..^1];
-        return Lang.HuntingVentureNames[0][..^1];
+        if(ClassJob == (int)Job.BTN) return Lang.HuntingVentureNames[2].TrimEnd('.');
+        if(ClassJob == (int)Job.MIN) return Lang.HuntingVentureNames[1].TrimEnd('.');
+        if(ClassJob == (int)Job.FSH) return Lang.HuntingVentureNames[3].TrimEnd('.');
+        return Lang.HuntingVentureNames[0].TrimEnd('.');
     }
 
     internal static string GetFieldExVentureName(uint ClassJob)
     {
-        if(ClassJob == (int)Job.BTN) return Lang.FieldExplorationNames[2][..^1];
-        if(ClassJob == (int)Job.MIN) return Lang.FieldExplorationNames[1][..^1];
-        if(ClassJob == (int)Job.FSH) return Lang.FieldExplorationNames[3][..^1];
-        return Lang.FieldExplorationNames[0][..^1];
+        if(ClassJob == (int)Job.BTN) return Lang.FieldExplorationNames[2].TrimEnd('.');
+        if(ClassJob == (int)Job.MIN) return Lang.FieldExplorationNames[1].TrimEnd('.');
+        if(ClassJob == (int)Job.FSH) return Lang.FieldExplorationNames[3].TrimEnd('.');
+        return Lang.FieldExplorationNames[0].TrimEnd('.');
     }
 
     internal static bool IsDoL(uint ClassJob)
