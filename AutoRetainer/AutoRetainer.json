@@ -4,6 +4,7 @@
   "InternalName": "AutoRetainer",
   "Punchline": "自动收取并重新派遣雇员探险与部队潜水艇探索。",
   "Description": "AutoRetainer 简体中文维护分支。自动收取并重新派遣雇员探险，也可管理部队潜水艇等探索任务。",
+  "Changelog": "同步上游 4.6.1.26，新增单轮多角色模式、异常提示及潜水艇派遣保护；补齐中文界面并防止空游戏文本误匹配；保留 RetainerPricing IPC v1 与调价互斥，保护调价任务不被上游恢复流程抢占。",
   "ApplicableVersion": "any",
   "RepoUrl": "https://github.com/endfish/AutoRetainer-CN",
   "DalamudApiLevel": 15,
